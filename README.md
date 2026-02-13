@@ -23,4 +23,4 @@ The app combines task management with peer driven motivation to promote healthie
 
 1. Clone the repository: `git clone git@github.com:jguan79/accountabuddy.git `
 2. Move into the project directory: `cd accountabuddy `
-3. Install dependicies using `npm install `
+3. ...
