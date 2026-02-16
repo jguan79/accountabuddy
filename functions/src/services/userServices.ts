@@ -2,9 +2,11 @@ import { User } from "../models/User";
 import { db } from "../firebase";
 
 /**
- * Adds a new user to the database.
+ * Services function to add user to database.
+ *
+ * Receives a user object and adds it to the firestore DB.
  * @param user - The user object to add
- * @returns The newly created user including its ID
+ * @returns The newly created user object including its ID
  */
 
 export async function createUserInDb(user: User): Promise<User> {
