@@ -1,7 +1,7 @@
+// Model for each user. Will hold the values below.
 export interface User {
     id: string;
     name: string;
-    email: string;
     username: string;
     password: string;
 }
