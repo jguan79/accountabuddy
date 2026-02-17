@@ -6,22 +6,20 @@ import { createTaskInDb } from "../services/taskServices";
  * Cloud function to create a new task.
  *
  * Receives a task object from the frontend, calls the service to add it to the DB,
- * and returns the created task including the database generated ID.
+ * and returns the created task including the database-generated ID.
  *
  * @param {object} req.data - The input object from the frontend
  * @param {string} req.data.subjectTitle - Subject/category of the task
  * @param {string} req.data.dueDate - Due date of the task
- * @param {string} req.data.color - Color associated with the task. CHANGE DATA TYPE LATER, DO NOT PASS STRING
+ * @param {string} req.data.color - Color associated with the task
  * @param {string} req.data.description - Description of the task
  * @param {string} req.data.userId - ID of the user who owns the task
  *
- * @returns {Promise<Task>} The newly created task object including the ID
+ * @returns {Promise<Task & { id: string }>} The newly created task object including the ID
  */
-
 const createTask = onCall(async (req) => {
     // Build the task object
     const task: Task = {
-        id: "",
         subjectTitle: req.data.subjectTitle,
         dueDate: req.data.dueDate,
         color: req.data.color,
@@ -32,10 +30,8 @@ const createTask = onCall(async (req) => {
     // Call service function to create task in the DB
     const newTask = await createTaskInDb(task);
 
-    // Return the created task
+    // Return the created task with the generated ID
     return newTask;
 });
 
 export { createTask };
-
-

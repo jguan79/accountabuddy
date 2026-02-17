@@ -9,10 +9,14 @@ import { db } from "../firebase";
  * @returns The newly created task object including its ID
  */
 
-export async function createTaskInDb(task: Task): Promise<Task> {
-    // Add user to the DB
-    const docRef = await db.collection("tasks").add(task);
+export async function createTaskInDb(
+    task: Task,
+): Promise<Task & { id: string }> {
+    const docRef = await db
+        .collection("users")
+        .doc(task.userId) // get the user doc
+        .collection("tasks") // subcollection under user
+        .add(task);
 
-    // Return the created user object including the generated ID
     return { ...task, id: docRef.id };
 }
