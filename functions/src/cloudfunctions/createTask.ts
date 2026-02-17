@@ -11,7 +11,7 @@ import { createTaskInDb } from "../services/taskServices";
  * @param {object} req.data - The input object from the frontend
  * @param {string} req.data.subjectTitle - Subject/category of the task
  * @param {string} req.data.dueDate - Due date of the task
- * @param {string} req.data.color - Color associated with the task. CHANGE DATA TYPE
+ * @param {string} req.data.color - Color associated with the task. CHANGE DATA TYPE LATER, DO NOT PASS STRING
  * @param {string} req.data.description - Description of the task
  * @param {string} req.data.userId - ID of the user who owns the task
  *
@@ -37,3 +37,5 @@ const createTask = onCall(async (req) => {
 });
 
 export { createTask };
+
+
