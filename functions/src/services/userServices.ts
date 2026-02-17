@@ -9,8 +9,10 @@ import { db } from "../firebase";
  * @returns The newly created user object including its ID
  */
 
-export async function createUserInDb(user: User): Promise<User> {
-    // Add user to the DB
+export async function createUserInDb(
+    user: User,
+): Promise<User & { id: string }> {
+    // Add user to DB
     const docRef = await db.collection("users").add(user);
 
     // Return the created user object including the generated ID

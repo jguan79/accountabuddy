@@ -14,13 +14,12 @@ import { createUserInDb } from "../services/userServices";
  * @param {string} req.data.username - Username for login
  * @param {string} req.data.password - Password for login
  *
- * @returns {Promise<User>} The newly created user object including the ID
+ * @returns {Promise<User & { id: string }>} The newly created user object including the ID
  */
 
 const createUser = onCall(async (req) => {
     // Build the user object
     const user: User = {
-        id: "",
         firstName: req.data.firstName,
         lastName: req.data.lastName,
         username: req.data.username,
