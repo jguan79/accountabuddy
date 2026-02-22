@@ -18,3 +18,6 @@ export async function createUserInDb(
     // Return the created user object including the generated ID
     return { ...user, id: docRef.id };
 }
+
+// Add JSDOC later
+export async function queryUserInDb(user: User) {}
