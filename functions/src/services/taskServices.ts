@@ -59,3 +59,28 @@ export async function deleteTaskInDb(
         .doc(taskId)
         .delete();
 }
+
+/**
+ * Update a task for a user.
+ *
+ * @param userId - ID of the user who owns the task
+ * @param taskId - ID of the task to update
+ * @param updates - Partial object of task fields to update
+ * @returns {Promise<Task & { id: string }>} - The updated task
+ */
+export async function updateTaskInDb(
+    userId: string,
+    taskId: string,
+    updates: Partial<Task>,
+): Promise<Task & { id: string }> {
+    const taskRef = db
+        .collection("users")
+        .doc(userId)
+        .collection("tasks")
+        .doc(taskId);
+
+    await taskRef.update(updates);
+
+    const updatedDoc = await taskRef.get();
+    return { id: updatedDoc.id, ...(updatedDoc.data() as Task) };
+}
