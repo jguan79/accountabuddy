@@ -1,7 +1,15 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { styles } from '../styles/indexStyles';
+import { useRouter } from 'expo-router';
 
 export default function Index() {
+  const router = useRouter();
+
+  const handleLogin = () => {
+    // functionality for login should be added here
+    router.push('/homepage');
+  };
+
   return (
     <View style={styles.container}>
       
@@ -30,7 +38,7 @@ export default function Index() {
       </View>
 
       {/* Login Button */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
@@ -43,8 +51,9 @@ export default function Index() {
       <View style={styles.divider} />
 
       {/* Sign Up Link */}
-        <Text style={styles.signupText}>Don't have an account? Sign Up</Text>
-
+      <Text style={styles.signupText}>Don't have an account?
+        <Text style={styles.signupText} onPress={() => router.push('/signup')}> Sign up</Text>
+      </Text>
     </View>
   );
 }
