@@ -4,7 +4,7 @@ export default function RootLayout() {
   return (
     <Stack>
       <Stack.Screen 
-        name="signup"
+        name="homepage"
         options={{ headerShown: false }}
       />
     </Stack>

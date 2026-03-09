@@ -5,6 +5,11 @@ import { useRouter } from 'expo-router';
 export default function Index() {
   const router = useRouter();
 
+  const handleLogin = () => {
+    // functionality for login should be added here
+    router.push('/homepage');
+  };
+
   return (
     <View style={styles.container}>
       
@@ -33,7 +38,7 @@ export default function Index() {
       </View>
 
       {/* Login Button */}
-      <TouchableOpacity style={styles.loginButton}>
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
