@@ -8,7 +8,6 @@ import { db } from "../firebase";
  * @param task - The task object to add
  * @returns The newly created task object including its ID
  */
-
 export async function createTaskInDb(
     task: Task,
 ): Promise<Task & { id: string }> {
@@ -40,4 +39,23 @@ export async function getTasksForUser(
         id: doc.id,
         ...(doc.data() as Task),
     }));
+}
+
+/**
+ * Service function to delete a task by its ID for a specific user.
+ *
+ * @param userId - ID of the user who owns the task
+ * @param taskId - ID of the task to delete
+ * @returns {Promise<void>} - Resolves when the task is deleted
+ */
+export async function deleteTaskInDb(
+    userId: string,
+    taskId: string,
+): Promise<void> {
+    await db
+        .collection("users")
+        .doc(userId)
+        .collection("tasks")
+        .doc(taskId)
+        .delete();
 }

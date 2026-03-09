@@ -5,7 +5,8 @@ import { createUser } from "./cloudfunctions/createUser";
 import { createTask } from "./cloudfunctions/createTask";
 import { loginUser } from "./cloudfunctions/loginUser";
 import { getTasks } from "./cloudfunctions/getTasks";
+import { deleteTask } from "./cloudfunctions/deleteTasks";
 
 setGlobalOptions({ maxInstances: 10 });
 
-export { createUser, createTask, loginUser, getTasks };
+export { createUser, createTask, loginUser, getTasks, deleteTask };
