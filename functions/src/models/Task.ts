@@ -1,3 +1,5 @@
+export type TaskStatus = "in_progress" | "completed" | "overdue";
+
 // Model for each task. Will hold the values below.
 export interface Task {
     subjectTitle: string;
@@ -5,4 +7,5 @@ export interface Task {
     color: string;
     description: string;
     userId: string;
+    status: TaskStatus;
 }

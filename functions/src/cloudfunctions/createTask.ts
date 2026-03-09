@@ -25,6 +25,7 @@ const createTask = onCall(async (req) => {
         color: req.data.color,
         description: req.data.description,
         userId: req.data.userId,
+        status: "in_progress",
     };
 
     // Call service function to create task in the DB
