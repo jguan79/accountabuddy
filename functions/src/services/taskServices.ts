@@ -20,3 +20,24 @@ export async function createTaskInDb(
 
     return { ...task, id: docRef.id };
 }
+
+/**
+ * Service function to get all tasks for a user.
+ *
+ * @param userId - The ID of the user whose tasks we want
+ * @returns {Promise<(Task & { id: string })[]>} - Array of tasks with IDs
+ */
+export async function getTasksForUser(
+    userId: string,
+): Promise<(Task & { id: string })[]> {
+    const snapshot = await db
+        .collection("users")
+        .doc(userId)
+        .collection("tasks")
+        .get();
+
+    return snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Task),
+    }));
+}
