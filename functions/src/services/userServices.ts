@@ -19,5 +19,31 @@ export async function createUserInDb(
     return { ...user, id: docRef.id };
 }
 
-// Add JSDOC later
-export async function queryUserInDb(user: User) {}
+/**
+ * Service function to query a user in the database.
+ *
+ * Searches the Firestore "users" collection for a document
+ * matching the provided username and password.
+ *
+ * @param {string} username - Username to search for
+ * @param {string} password - Password to match
+ *
+ * @returns {Promise<object | null>} The matching user object including its ID if found, otherwise null
+ */
+
+export async function queryUserInDb(username: string, password: string) {
+    const snapshot = await db
+        .collection("users")
+        .where("username", "==", username)
+        .where("password", "==", password)
+        .get();
+
+    // If no user found return null
+    if (snapshot.empty) {
+        return null;
+    }
+
+    // Return first matching user
+    const doc = snapshot.docs[0];
+    return { id: doc.id, ...doc.data() };
+}
