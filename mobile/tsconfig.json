@@ -1,17 +1,25 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
-        "jsx": "react-jsx",
-        "strict": true,
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "baseUrl": "./",
-        "paths": {
-            "@/*": ["./*"]
-        }
-    },
-    "include": ["**/*.ts", "**/*.tsx"]
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "react-jsx",
+    "strict": true,
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+, "app/_layout.jsx", "app/index.jsx"  ],
+  "extends": "expo/tsconfig.base"
 }
