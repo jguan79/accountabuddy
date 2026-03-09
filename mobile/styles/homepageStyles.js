@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8F5E9',
+    backgroundColor: '#D8EBD4',
     paddingTop: 50,
   },
   topBar: {
@@ -21,30 +21,28 @@ export const styles = StyleSheet.create({
   menuLine: {
     width: 25,
     height: 3,
-    backgroundColor: '#333',
-    borderRadius: 2,
+    backgroundColor: '#94C88A',
+    borderRadius: 4,
   },
   streakBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFD700',
     paddingHorizontal: 15,
     paddingVertical: 8,
     borderRadius: 20,
   },
-  streakIcon: {
-    fontSize: 18,
+  streak: {
+    fontSize: 24,
     marginRight: 5,
   },
   streakText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
   },
   bellIcon: {
     position: 'relative',
   },
-  bellText: {
+  bell: {
     fontSize: 24,
   },
   notificationDot: {
@@ -53,7 +51,7 @@ export const styles = StyleSheet.create({
     right: 2,
     width: 10,
     height: 10,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: 'tomato',
     borderRadius: 5,
   },
   greetingSection: {
@@ -63,15 +61,14 @@ export const styles = StyleSheet.create({
   greetingText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
   },
   subGreeting: {
     fontSize: 14,
-    color: '#666',
+    color: 'dimgray',
     marginTop: 5,
   },
   calendar: {
-    backgroundColor: '#D5E8D5',
+    backgroundColor: '#D8EBD4',
     marginHorizontal: 20,
     padding: 15,
     borderRadius: 15,
@@ -85,7 +82,6 @@ export const styles = StyleSheet.create({
   weekDay: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#333',
     width: 30,
     textAlign: 'center',
   },
@@ -105,7 +101,6 @@ export const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 14,
-    color: '#333',
   },
   currentDateText: {
     color: 'white',
@@ -114,7 +109,6 @@ export const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
     paddingHorizontal: 20,
     marginTop: 10,
     marginBottom: 15,
@@ -126,7 +120,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 15,
     padding: 15,
-    borderRadius: 15,
+    borderRadius: 40,
   },
   taskLeft: {
     flexDirection: 'row',
@@ -136,17 +130,16 @@ export const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 10,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: 'tomato',
     marginRight: 12,
   },
   taskName: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
   },
   taskDescription: {
     fontSize: 14,
-    color: '#555',
+    color: 'dimgray',
     marginTop: 2,
   },
   dueBadge: {
@@ -159,35 +152,32 @@ export const styles = StyleSheet.create({
   dueText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#333',
   },
   daysText: {
     fontSize: 10,
-    color: '#555',
+    color: 'dimgray',
   },
   addTaskButton: {
-    backgroundColor: '#C8E6C9',
+    backgroundColor: '#BADBB3',
     marginHorizontal: 20,
     padding: 15,
-    borderRadius: 15,
+    borderRadius: 40,
     alignItems: 'center',
     marginBottom: 20,
   },
   addTaskText: {
     fontSize: 16,
-    color: '#333',
   },
   friendButton: {
-    backgroundColor: '#A5D6A7',
+    backgroundColor: '#94C88A',
     marginHorizontal: 20,
     padding: 18,
-    borderRadius: 15,
+    borderRadius: 40,
     alignItems: 'center',
     marginBottom: 12,
   },
   friendName: {
     fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
+    fontWeight: 'bold',
   },
 });

@@ -29,12 +29,12 @@ export default function Home() {
         </TouchableOpacity>
         
         <View style={styles.streakBadge}>
-          <Text style={styles.streak}>🪙</Text>
+          <Text style={styles.streak}>☀️</Text>
           <Text style={styles.streakText}>{streak}</Text>
         </View>
         
         <TouchableOpacity style={styles.bellIcon}>
-          <Text style={styles.bellText}>🔔</Text>
+          <Text style={styles.bell}>🔔</Text>
           <View style={styles.notificationDot} />
         </TouchableOpacity>
       </View>
