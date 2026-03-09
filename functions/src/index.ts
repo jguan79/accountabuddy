@@ -3,7 +3,8 @@ import { setGlobalOptions } from "firebase-functions";
 // import * as logger from "firebase-functions/logger"; // remove comment as necessary
 import { createUser } from "./cloudfunctions/createUser";
 import { createTask } from "./cloudfunctions/createTask";
+import { loginUser } from "./cloudfunctions/loginUser";
 
 setGlobalOptions({ maxInstances: 10 });
 
-export { createUser, createTask };
+export { createUser, createTask, loginUser };

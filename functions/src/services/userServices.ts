@@ -31,7 +31,10 @@ export async function createUserInDb(
  * @returns {Promise<object | null>} The matching user object including its ID if found, otherwise null
  */
 
-export async function queryUserInDb(username: string, password: string) {
+export async function queryUserInDb(
+    username: string,
+    password: string,
+): Promise<(User & { id: string }) | null> {
     const snapshot = await db
         .collection("users")
         .where("username", "==", username)
@@ -45,5 +48,9 @@ export async function queryUserInDb(username: string, password: string) {
 
     // Return first matching user
     const doc = snapshot.docs[0];
-    return { id: doc.id, ...doc.data() };
+
+    // Cast data to User
+    const data = doc.data() as User;
+
+    return { id: doc.id, ...data };
 }
