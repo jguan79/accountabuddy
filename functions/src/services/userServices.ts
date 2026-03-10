@@ -54,3 +54,34 @@ export async function queryUserInDb(
 
     return { id: doc.id, ...data };
 }
+
+/**
+ * Service function to search users by partial username.
+ *
+ * @param usernamePart - Partial username to search for
+ * @param excludeUserId - Optional ID of the current user to exclude from results
+ * @returns {Promise<(User & { id: string })[]>} - Array of users matching the query
+ */
+export async function queryUsersByUsername(
+    usernamePart: string,
+    excludeUserId?: string,
+): Promise<(Omit<User, "password"> & { id: string })[]> {
+    const snapshot = await db.collection("users").get();
+
+    const users: (Omit<User, "password"> & { id: string })[] = [];
+
+    snapshot.docs.forEach((doc) => {
+        const data = doc.data() as User;
+        const id = doc.id;
+
+        // Skip current user if excludeUserId is provided
+        if (excludeUserId && id === excludeUserId) return;
+
+        if (data.username.toLowerCase().includes(usernamePart.toLowerCase())) {
+            const { password, ...safeData } = data;
+            users.push({ id, ...safeData });
+        }
+    });
+
+    return users;
+}
