@@ -1,7 +1,10 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { styles } from '../styles/homepageStyles';
+import { useRouter } from 'expo-router';
 
 export default function Home() {
+  const router = useRouter();
+
   // sample data
   const userName = "Ted";
   const streak = 12;
@@ -22,7 +25,7 @@ export default function Home() {
       
       {/* Top Bar */}
       <View style={styles.topBar}>
-        <TouchableOpacity style={styles.menuIcon}>
+        <TouchableOpacity style={styles.menuIcon} onPress={() => router.push('/')}>
           <View style={styles.menuLine} />
           <View style={styles.menuLine} />
           <View style={styles.menuLine} />
