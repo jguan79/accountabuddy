@@ -1,36 +1,79 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { styles } from "../styles/homepageStyles";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { functions } from "../firebase";
+import { httpsCallable } from "firebase/functions";
 
-export default function Home() {
+// Define types (optional but helpful)
+type Task = {
+    id: string;
+    name: string;
+    description: string;
+    dueInDays: number;
+    color: string;
+};
+type User = {
+    id: string;
+    firstName: string;
+    lastName: string;
+    username: string;
+};
+
+export default function Home({ route }: any) {
     const router = useRouter();
 
-    // sample data
-    const userName = "Ted";
-    const streak = 12;
-    const currentDay = 9;
+    // --- State ---
+    const [user, setUser] = useState<User | null>(null);
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [friends, setFriends] = useState<User[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const weekDays = ["Su", "Mon", "T", "W", "Th", "F", "S"];
-    const dates = [6, 7, 8, 9, 10, 11, 12];
+    // --- Fetch user info, tasks, friends ---
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const currentUser: User = route?.params?.user;
+                if (!currentUser) {
+                    router.push("/");
+                    return;
+                }
+                setUser(currentUser);
 
-    const tasks = [
-        {
-            id: 1,
-            name: "Capstone",
-            description: "Finish slides",
-            dueInDays: 5,
-            color: "#FFB6C1",
-        },
-        {
-            id: 2,
-            name: "Compilers",
-            description: "Project 1",
-            dueInDays: 2,
-            color: "#DDA0DD",
-        },
-    ];
+                // Fetch tasks
+                const getTasksFn = httpsCallable<{ userId: string }, Task[]>(
+                    functions,
+                    "getTasks",
+                );
+                const tasksRes = await getTasksFn({ userId: currentUser.id });
+                setTasks(tasksRes.data || []);
 
-    const friends = ["Timmy", "John"];
+                // Fetch friends
+                const getFriendsFn = httpsCallable<{ userId: string }, User[]>(
+                    functions,
+                    "getFriends",
+                );
+                const friendsRes = await getFriendsFn({
+                    userId: currentUser.id,
+                });
+                setFriends(friendsRes.data || []);
+            } catch (err) {
+                console.error("Failed to load homepage data:", err);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+            <View style={styles.container}>
+                <Text>Loading...</Text>
+            </View>
+        );
+    }
 
     return (
         <ScrollView style={styles.container}>
@@ -47,7 +90,7 @@ export default function Home() {
 
                 <View style={styles.streakBadge}>
                     <Text style={styles.streak}>☀️</Text>
-                    <Text style={styles.streakText}>{streak}</Text>
+                    <Text style={styles.streakText}>12</Text>
                 </View>
 
                 <TouchableOpacity style={styles.bellIcon}>
@@ -58,47 +101,16 @@ export default function Home() {
 
             {/* Greeting */}
             <View style={styles.greetingSection}>
-                <Text style={styles.greetingText}>Welcome {userName},</Text>
+                <Text style={styles.greetingText}>
+                    Welcome {user?.username},
+                </Text>
                 <Text style={styles.subGreeting}>
                     What are we accomplishing today?
                 </Text>
             </View>
 
-            {/* Calendar Widget */}
-            <View style={styles.calendar}>
-                <View style={styles.weekDaysRow}>
-                    {weekDays.map((day, index) => (
-                        <Text key={index} style={styles.weekDay}>
-                            {day}
-                        </Text>
-                    ))}
-                </View>
-                <View style={styles.datesRow}>
-                    {dates.map((date, index) => (
-                        <View
-                            key={index}
-                            style={[
-                                styles.dateCircle,
-                                date === currentDay && styles.currentDate,
-                            ]}
-                        >
-                            <Text
-                                style={[
-                                    styles.dateText,
-                                    date === currentDay &&
-                                        styles.currentDateText,
-                                ]}
-                            >
-                                {date}
-                            </Text>
-                        </View>
-                    ))}
-                </View>
-            </View>
-
             {/* Tasks Section */}
             <Text style={styles.sectionTitle}>Tasks</Text>
-
             {tasks.map((task) => (
                 <View
                     key={task.id}
@@ -122,7 +134,6 @@ export default function Home() {
                 </View>
             ))}
 
-            {/* Add Task Button */}
             <TouchableOpacity style={styles.addTaskButton}>
                 <Text style={styles.addTaskText}>Add Task</Text>
             </TouchableOpacity>
@@ -131,14 +142,12 @@ export default function Home() {
             <Text style={styles.sectionTitle}>
                 View your friends' activities
             </Text>
-
-            {friends.map((friend, index) => (
-                <TouchableOpacity key={index} style={styles.friendButton}>
-                    <Text style={styles.friendName}>{friend}</Text>
+            {friends.map((friend) => (
+                <TouchableOpacity key={friend.id} style={styles.friendButton}>
+                    <Text style={styles.friendName}>{friend.username}</Text>
                 </TouchableOpacity>
             ))}
 
-            {/* Bottom spacing */}
             <View style={{ height: 40 }} />
         </ScrollView>
     );
