@@ -2,15 +2,19 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import Index from "./app/index";
 import Homepage from "./app/homepage";
 import Signup from "./app/signup";
+import AddFriend from "./app/addFriend";
+import FriendsList from "./app/friendsList";
 
 export type RootStackParamList = {
     Index: undefined;
     Homepage: { user: any; openSidebar?: boolean };
     Signup: undefined;
     AddFriend: { user: any };
+    FriendsList: { user: any };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -29,10 +33,10 @@ export default function App() {
                     <Stack.Screen name="Index" component={Index} />
                     <Stack.Screen name="Homepage" component={Homepage} />
                     <Stack.Screen name="Signup" component={Signup} />
-                    <Stack.Screen
-                        name="AddFriend"
-                        component={require("./app/addFriend").default}
-                    />
+                    <Stack.Screen name="AddFriend" component={AddFriend} />
+
+                    {/* FriendsList screen */}
+                    <Stack.Screen name="FriendsList" component={FriendsList} />
                 </Stack.Navigator>
             </NavigationContainer>
         </TouchableWithoutFeedback>

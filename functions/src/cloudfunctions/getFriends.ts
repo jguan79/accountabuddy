@@ -1,4 +1,3 @@
-// functions/getFriends.ts
 import { onCall } from "firebase-functions/v2/https";
 import { getFriendsForUser } from "../services/friendServices";
 // import type { Friend } from "../models/Friend";

@@ -483,12 +483,12 @@ export default function Homepage({ route, navigation }: Props) {
 
                             <TouchableOpacity
                                 style={styles.sidebarItem}
-                                onPress={() =>
-                                    Alert.alert(
-                                        "Friends",
-                                        "Friends List not implemented",
-                                    )
-                                }
+                                onPress={() => {
+                                    closeSidebar();
+                                    navigation.navigate("FriendsList", {
+                                        user: currentUser,
+                                    });
+                                }}
                             >
                                 <Text style={styles.sidebarItemText}>
                                     Friends
