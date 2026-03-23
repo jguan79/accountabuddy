@@ -126,6 +126,22 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
     },
+    nameRow: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    tagBadge: {
+        backgroundColor: "rgba(0,0,0,0.06)",
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 8,
+        marginRight: 10,
+    },
+    tagText: {
+        fontSize: 12,
+        fontWeight: "700",
+        letterSpacing: 0.5,
+    },
     taskCircle: {
         width: 20,
         height: 20,
@@ -210,8 +226,63 @@ export const styles = StyleSheet.create({
     },
     sidebarItem: {
         paddingVertical: 14,
+        paddingHorizontal: 6,
         borderBottomWidth: 1,
         borderBottomColor: "#f0f0f0",
+    },
+    sidebarHeader: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 20,
+        paddingBottom: 18,
+        borderBottomWidth: 1,
+        borderBottomColor: "#f0f0f0",
+        marginBottom: 8,
+    },
+    sidebarAvatar: {
+        width: 56,
+        height: 56,
+        borderRadius: 28,
+        backgroundColor: "#94C88A",
+        marginRight: 12,
+    },
+    sidebarHeaderText: {
+        flexDirection: "column",
+    },
+    sidebarUsername: {
+        fontSize: 16,
+        fontWeight: "800",
+    },
+    sidebarSubtitle: {
+        fontSize: 12,
+        color: "dimgray",
+        marginTop: 2,
+    },
+    sidebarMenu: {
+        paddingHorizontal: 12,
+    },
+    sidebarItemText: {
+        fontSize: 15,
+        paddingVertical: 12,
+        paddingHorizontal: 8,
+    },
+    sidebarFooter: {
+        marginTop: 12,
+        paddingHorizontal: 20,
+        borderTopWidth: 1,
+        borderTopColor: "#f0f0f0",
+        paddingTop: 12,
+    },
+    sidebarLogoutButton: {
+        backgroundColor: "#FFECEC",
+        paddingVertical: 10,
+        paddingHorizontal: 14,
+        borderRadius: 14,
+        alignItems: "center",
+    },
+    sidebarLogoutText: {
+        color: "#B00020",
+        fontWeight: "700",
     },
     /* Modal styles */
     modalOverlay: {
@@ -221,37 +292,108 @@ export const styles = StyleSheet.create({
         alignItems: "center",
     },
     modalContainer: {
-        width: "90%",
-        backgroundColor: "#fff",
-        borderRadius: 12,
+        width: "92%",
+        backgroundColor: "#F6FBF6",
+        borderRadius: 18,
         padding: 18,
+        borderWidth: 1,
+        borderColor: "#E6F1E6",
     },
     modalHeader: {
         fontSize: 18,
         fontWeight: "700",
         marginBottom: 12,
     },
-    input: {
+    searchInput: {
+        height: 48,
+        backgroundColor: "#EAF6EA",
+        borderRadius: 12,
+        paddingHorizontal: 12,
+        marginTop: 8,
         borderWidth: 1,
-        borderColor: "#eee",
-        borderRadius: 8,
-        padding: 10,
+        borderColor: "#E0EFE0",
+    },
+    resultRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: "#F2F7F2",
+    },
+    resultName: {
+        fontSize: 15,
+        fontWeight: "700",
+    },
+    resultUsername: {
+        fontSize: 12,
+        color: "dimgray",
+        marginTop: 4,
+    },
+    addFriendButton: {
+        backgroundColor: "#66BB6A",
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 12,
+    },
+    addFriendButtonText: {
+        color: "#fff",
+        fontWeight: "700",
+    },
+    addFriendContent: {
+        paddingHorizontal: 18,
+        paddingTop: 12,
+    },
+    addFriendResults: {
+        paddingHorizontal: 18,
+        paddingTop: 8,
+        paddingBottom: 40,
+    },
+    emptyResultContainer: {
+        padding: 18,
+    },
+    emptyResultText: {
+        color: "dimgray",
+    },
+    searchActionsRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 12,
+    },
+    input: {
+        height: 48,
+        backgroundColor: "#EAF6EA",
+        borderRadius: 30,
+        paddingHorizontal: 16,
         marginBottom: 10,
-        backgroundColor: "#fafafa",
     },
     modalButtons: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginTop: 6,
+        marginTop: 12,
     },
     modalButton: {
-        paddingVertical: 10,
-        paddingHorizontal: 18,
-        backgroundColor: "#BADBB3",
-        borderRadius: 8,
+        paddingVertical: 12,
+        paddingHorizontal: 22,
+        borderRadius: 24,
+        alignItems: "center",
+    },
+    modalButtonPrimary: {
+        backgroundColor: "#66BB6A",
+    },
+    modalButtonOutline: {
+        backgroundColor: "transparent",
+        borderWidth: 1,
+        borderColor: "#94C88A",
     },
     modalButtonText: {
         fontWeight: "700",
+    },
+    modalButtonTextPrimary: {
+        color: "#fff",
+    },
+    modalButtonTextOutline: {
+        color: "#2f6f3a",
     },
     /* full-screen modal layout */
     modalFullScreen: {
@@ -309,6 +451,41 @@ export const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#333",
     },
+    statusRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 8,
+    },
+    statusButton: {
+        flex: 1,
+        paddingVertical: 8,
+        marginHorizontal: 6,
+        borderRadius: 18,
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "transparent",
+    },
+    statusButtonSelected: {
+        backgroundColor: "#66BB6A",
+        borderColor: "#5aa85b",
+    },
+    statusText: {
+        fontWeight: "700",
+    },
+    swipeRightAction: {
+        backgroundColor: "#FF6B6B",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 90,
+        marginRight: 16,
+        borderRadius: 16,
+        paddingVertical: 10,
+        marginBottom: 15,
+    },
+    swipeRightText: {
+        color: "#fff",
+        fontWeight: "700",
+    },
     createButton: {
         marginTop: 12,
         alignSelf: "center",
@@ -323,4 +500,15 @@ export const styles = StyleSheet.create({
     createButtonText: {
         fontWeight: "700",
     },
+    pageRoot: {
+        flex: 1,
+    },
+    spacer40: {
+        height: 40,
+    },
 });
+
+// helper for dynamic task card background color
+export function taskCardBackground(color) {
+    return { backgroundColor: color || "#FFF" };
+}
