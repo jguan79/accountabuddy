@@ -1,27 +1,23 @@
 import { initializeApp } from "firebase/app";
-import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getFunctions } from "firebase/functions";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
-/* Dummy Values. Change this when we are ready to deploy so that we can connect to real project (backend). */
 const firebaseConfig = {
-    apiKey: "fake-api-key",
-    authDomain: "localhost",
-    projectId: "demo-project",
-    storageBucket: "demo-project.appspot.com",
-    messagingSenderId: "1234567890",
-    appId: "1:1234567890:web:dummy",
+    apiKey: "AIzaSyCUQnedgZE0A2drHfv0SiW9k0YjPOAA8IU",
+    authDomain: "accountabuddy-aram1.firebaseapp.com",
+    projectId: "accountabuddy-aram1",
+    storageBucket: "accountabuddy-aram1.firebasestorage.app",
+    messagingSenderId: "1006900548091",
+    appId: "1:1006900548091:android:1d58d4af5bb32b28b4fb5e",
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const functions = getFunctions(app);
-connectFunctionsEmulator(functions, "localhost", 5001); /* local dev only */
-
-const firestore = getFirestore(app);
-connectFirestoreEmulator(firestore, "localhost", 8080); /* local dev only */
-
+// Firebase services
 const auth = getAuth(app);
-connectAuthEmulator(auth, "http://localhost:9099"); /* local dev only */
+const functions = getFunctions(app);
+const firestore = getFirestore(app);
 
-export { app, functions, firestore, auth };
+export { app, auth, functions, firestore };

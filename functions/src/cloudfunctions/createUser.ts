@@ -1,6 +1,13 @@
+import * as admin from "firebase-admin";
 import { onCall } from "firebase-functions/v2/https";
 import { User } from "../models/User";
 import { createUserInDb } from "../services/userServices";
+
+// Initialize admin once
+if (!admin.apps.length) {
+    admin.initializeApp();
+}
+const adminDb = admin.firestore();
 
 /**
  * Cloud function to create a new user.
@@ -16,21 +23,33 @@ import { createUserInDb } from "../services/userServices";
  *
  * @returns {Promise<User & { id: string }>} The newly created user object including the ID
  */
+const createUser = onCall(
+    {
+        invoker: "public",
+    },
+    async (req) => {
+        console.log("FUNCTION HIT");
+        console.log("DATA:", req.data);
 
-const createUser = onCall(async (req) => {
-    // Build the user object
-    const user: User = {
-        firstName: req.data.firstName,
-        lastName: req.data.lastName,
-        username: req.data.username,
-        password: req.data.password,
-    };
+        try {
+            const user: User = {
+                firstName: req.data.firstName,
+                lastName: req.data.lastName,
+                username: req.data.username,
+                password: req.data.password,
+            };
 
-    // Call service function to create user in the DB
-    const newUser = await createUserInDb(user);
+            // Minimal change: pass adminDb to the service function
+            const newUser = await createUserInDb(user, adminDb);
 
-    // Return the created user
-    return newUser;
-});
+            console.log("SUCCESS:", newUser);
+
+            return newUser;
+        } catch (err) {
+            console.error("ERROR INSIDE FUNCTION:", err);
+            throw err;
+        }
+    },
+);
 
 export { createUser };

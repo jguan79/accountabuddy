@@ -1,6 +1,6 @@
 import { onCall } from "firebase-functions/v2/https";
 import { getTasksForUser } from "../services/taskServices";
-import type { Task } from "../models/Task";
+// import type { Task } from "../models/Task";
 
 /**
  * Cloud function to get all tasks for a user.

@@ -1,21 +1,23 @@
 import { User } from "../models/User";
-import { db } from "../firebase";
+import { db as clientDb } from "../firebase";
+import type { Firestore } from "firebase-admin/firestore";
 
 /**
  * Services function to add user to database.
  *
- * Receives a user object and adds it to the firestore DB.
- * @param user - The user object to add
- * @returns The newly created user object including its ID
+ * @param user - User object
+ * @param writeDb - optional admin Firestore to bypass rules
  */
-
 export async function createUserInDb(
     user: User,
+    writeDb?: Firestore,
 ): Promise<User & { id: string }> {
-    // Add user to DB
-    const docRef = await db.collection("users").add(user);
+    const writeRef = writeDb
+        ? writeDb.collection("users")
+        : clientDb.collection("users");
 
-    // Return the created user object including the generated ID
+    const docRef = await writeRef.add(user);
+
     return { ...user, id: docRef.id };
 }
 
@@ -30,26 +32,19 @@ export async function createUserInDb(
  *
  * @returns {Promise<object | null>} The matching user object including its ID if found, otherwise null
  */
-
 export async function queryUserInDb(
     username: string,
     password: string,
 ): Promise<(User & { id: string }) | null> {
-    const snapshot = await db
+    const snapshot = await clientDb
         .collection("users")
         .where("username", "==", username)
         .where("password", "==", password)
         .get();
 
-    // If no user found return null
-    if (snapshot.empty) {
-        return null;
-    }
+    if (snapshot.empty) return null;
 
-    // Return first matching user
     const doc = snapshot.docs[0];
-
-    // Cast data to User
     const data = doc.data() as User;
 
     return { id: doc.id, ...data };
@@ -66,7 +61,7 @@ export async function queryUsersByUsername(
     usernamePart: string,
     excludeUserId?: string,
 ): Promise<(Omit<User, "password"> & { id: string })[]> {
-    const snapshot = await db.collection("users").get();
+    const snapshot = await clientDb.collection("users").get();
 
     const users: (Omit<User, "password"> & { id: string })[] = [];
 
@@ -74,7 +69,6 @@ export async function queryUsersByUsername(
         const data = doc.data() as User;
         const id = doc.id;
 
-        // Skip current user if excludeUserId is provided
         if (excludeUserId && id === excludeUserId) return;
 
         if (data.username.toLowerCase().includes(usernamePart.toLowerCase())) {

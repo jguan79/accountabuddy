@@ -1,7 +1,7 @@
 // functions/getFriends.ts
 import { onCall } from "firebase-functions/v2/https";
 import { getFriendsForUser } from "../services/friendServices";
-import type { Friend } from "../models/Friend";
+// import type { Friend } from "../models/Friend";
 
 /**
  * Cloud function to get all friends of a user.

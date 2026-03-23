@@ -1,6 +1,6 @@
 import { onCall } from "firebase-functions/v2/https";
 import { queryUsersByUsername } from "../services/userServices";
-import type { User } from "../models/User";
+// import type { User } from "../models/User";
 
 /**
  * Cloud function to query users by username.
