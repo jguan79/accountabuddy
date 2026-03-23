@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
+import {
+    View,
+    Text,
+    ScrollView,
+    TouchableOpacity,
+    Alert,
+    Modal,
+    TextInput,
+} from "react-native";
 import { Animated, Dimensions } from "react-native";
 import { styles } from "../styles/homepageStyles";
 import { functions } from "../firebase";
@@ -32,6 +40,11 @@ export default function Homepage({ route, navigation }: Props) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const sidebarAnim = useRef(new Animated.Value(-260)).current;
     const sidebarWidth = 260;
+    const [addModalOpen, setAddModalOpen] = useState(false);
+    const [newTitle, setNewTitle] = useState("");
+    const [newDescription, setNewDescription] = useState("");
+    const [newDueInDays, setNewDueInDays] = useState<string>("");
+    const [newColor, setNewColor] = useState("#FFD27F");
 
     useEffect(() => {
         if (!currentUser) {
@@ -113,6 +126,43 @@ export default function Homepage({ route, navigation }: Props) {
             duration: 180,
             useNativeDriver: true,
         }).start(() => setSidebarOpen(false));
+    }
+
+    async function handleCreateTask() {
+        if (!newTitle) {
+            Alert.alert("Validation", "Please enter a task title.");
+            return;
+        }
+
+        // compute dueDate from days if provided
+        const days = parseInt(newDueInDays || "0", 10);
+        const due = new Date();
+        due.setDate(due.getDate() + (isNaN(days) ? 0 : days));
+        const dueDate = due.toISOString();
+
+        try {
+            const createTaskFn = httpsCallable(functions, "createTask");
+            const res = await createTaskFn({
+                subjectTitle: newTitle,
+                description: newDescription,
+                dueDate,
+                color: newColor,
+                userId: currentUser.id,
+            });
+
+            const created = res.data;
+            // Prepend to tasks list
+            setTasks((prev) => [created, ...prev]);
+            setAddModalOpen(false);
+            // reset form
+            setNewTitle("");
+            setNewDescription("");
+            setNewDueInDays("");
+            setNewColor("#FFD27F");
+        } catch (err) {
+            console.error("Create task failed", err);
+            Alert.alert("Error", "Failed to create task.");
+        }
     }
 
     if (loading) {
@@ -229,12 +279,7 @@ export default function Homepage({ route, navigation }: Props) {
                 {/* Add Task Button */}
                 <TouchableOpacity
                     style={styles.addTaskButton}
-                    onPress={() =>
-                        Alert.alert(
-                            "Add Task",
-                            "Open add task screen (not implemented)",
-                        )
-                    }
+                    onPress={() => setAddModalOpen(true)}
                 >
                     <Text style={styles.addTaskText}>Add Task</Text>
                 </TouchableOpacity>
@@ -328,6 +373,59 @@ export default function Homepage({ route, navigation }: Props) {
                     </Animated.View>
                 </TouchableOpacity>
             ) : null}
+            {/* Add Task Modal */}
+            <Modal visible={addModalOpen} animationType="slide" transparent>
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalHeader}>Add Task</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Title"
+                            value={newTitle}
+                            onChangeText={setNewTitle}
+                        />
+                        <TextInput
+                            style={[styles.input, { height: 80 }]}
+                            placeholder="Description"
+                            value={newDescription}
+                            onChangeText={setNewDescription}
+                            multiline
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Due in X days (number)"
+                            value={newDueInDays}
+                            onChangeText={setNewDueInDays}
+                            keyboardType="numeric"
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Color hex (e.g. #FFD27F)"
+                            value={newColor}
+                            onChangeText={setNewColor}
+                        />
+
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity
+                                style={styles.modalButton}
+                                onPress={() => setAddModalOpen(false)}
+                            >
+                                <Text style={styles.modalButtonText}>
+                                    Cancel
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.modalButton}
+                                onPress={handleCreateTask}
+                            >
+                                <Text style={styles.modalButtonText}>
+                                    Create
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
