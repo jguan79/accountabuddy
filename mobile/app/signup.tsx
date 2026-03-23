@@ -1,12 +1,17 @@
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../styles/signupStyles";
-import { useRouter } from "expo-router";
 import { functions } from "../firebase";
 import { httpsCallable } from "firebase/functions";
 import { useState } from "react";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../App";
+
+// Type for React Navigation
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
 
 export default function Signup() {
-    const router = useRouter();
+    const navigation = useNavigation<NavigationProp>();
 
     // --- State for inputs ---
     const [firstName, setFirstName] = useState("");
@@ -33,7 +38,8 @@ export default function Signup() {
             if (res.data) {
                 console.log("New user created:", res.data);
                 Alert.alert("Success", "User created successfully!");
-                router.push("/homepage"); // navigate to main page
+                // Navigate to homepage with the user object
+                navigation.navigate("Homepage", { user: res.data });
             } else {
                 Alert.alert("Error", "Failed to create user.");
             }
@@ -51,7 +57,7 @@ export default function Signup() {
                     <Text style={styles.logoText}>Logo</Text>
                 </View>
 
-                {/* Welcome Text and App Name*/}
+                {/* Welcome Text and App Name */}
                 <Text style={styles.welcomeText}>Welcome to</Text>
                 <Text style={styles.appName}>Accountabuddy</Text>
             </View>
@@ -107,7 +113,7 @@ export default function Signup() {
                     Already have an account?
                     <Text
                         style={styles.signinText}
-                        onPress={() => router.push("/")}
+                        onPress={() => navigation.navigate("Index")}
                     >
                         {" "}
                         Sign in
