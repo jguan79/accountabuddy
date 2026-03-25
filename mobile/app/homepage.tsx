@@ -14,6 +14,7 @@ import { functions } from "../firebase";
 import { httpsCallable } from "firebase/functions";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
+import ScreenWrapper from "../components/ScreenWrapper";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Homepage">;
 
@@ -470,6 +471,7 @@ export default function Homepage({ route, navigation }: Props) {
                             </View>
                         </View>
 
+                        {/* Everything below this view is a sidebar nav link*/}
                         <View style={styles.sidebarMenu}>
                             <TouchableOpacity
                                 style={styles.sidebarItem}
@@ -522,7 +524,23 @@ export default function Homepage({ route, navigation }: Props) {
                                     Profile
                                 </Text>
                             </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.sidebarItem}
+                                onPress={() => {
+                                    closeSidebar();
+                                    navigation.navigate("AnalyticsPage", {
+                                        user: currentUser,
+                                    });
+                                }}
+                            >
+                                <Text style={styles.sidebarItemText}>
+                                    Analytics
+                                </Text>
+                            </TouchableOpacity>
+
                         </View>
+                        {/* Everything above this view is a sidebar nav link*/}
 
                         <View style={styles.sidebarFooter}>
                             <TouchableOpacity
