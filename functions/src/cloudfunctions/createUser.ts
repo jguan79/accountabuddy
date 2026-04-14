@@ -12,8 +12,7 @@ const adminDb = admin.firestore();
 /**
  * Cloud function to create a new user.
  *
- * Receives a user object from the frontend, calls the service to add it to the DB,
- * and returns the created user including the database generated ID.
+ * Receives a user object from the frontend, calls the service to add it to the DB, and returns the created user including the database generated ID.
  *
  * @param {object} req.data - The input object from the frontend
  * @param {string} req.data.firstName - First name of the user
@@ -39,7 +38,6 @@ const createUser = onCall(
                 password: req.data.password,
             };
 
-            // Minimal change: pass adminDb to the service function
             const newUser = await createUserInDb(user, adminDb);
 
             console.log("SUCCESS:", newUser);

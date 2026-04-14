@@ -11,13 +11,13 @@ import { db } from "../firebase";
 export async function createTaskInDb(
     task: Task,
 ): Promise<Task & { id: string }> {
-    const docRef = await db
+    const newTaskRef = await db
         .collection("users")
-        .doc(task.userId) // get the user doc
-        .collection("tasks") // subcollection under user
+        .doc(task.userId)
+        .collection("tasks")
         .add(task);
 
-    return { ...task, id: docRef.id };
+    return { ...task, id: newTaskRef.id };
 }
 
 /**
@@ -29,13 +29,13 @@ export async function createTaskInDb(
 export async function getTasksForUser(
     userId: string,
 ): Promise<(Task & { id: string })[]> {
-    const snapshot = await db
+    const taskSnapshot = await db
         .collection("users")
         .doc(userId)
         .collection("tasks")
         .get();
 
-    return snapshot.docs.map((doc) => ({
+    return taskSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...(doc.data() as Task),
     }));
@@ -81,6 +81,6 @@ export async function updateTaskInDb(
 
     await taskRef.update(updates);
 
-    const updatedDoc = await taskRef.get();
-    return { id: updatedDoc.id, ...(updatedDoc.data() as Task) };
+    const updatedTask = await taskRef.get();
+    return { id: updatedTask.id, ...(updatedTask.data() as Task) };
 }

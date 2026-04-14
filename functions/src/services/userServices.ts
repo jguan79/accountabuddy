@@ -3,7 +3,7 @@ import { db as clientDb } from "../firebase";
 import type { Firestore } from "firebase-admin/firestore";
 
 /**
- * Services function to add user to database.
+ * Creates a new user in the database.
  *
  * @param user - User object
  * @param writeDb - optional admin Firestore to bypass rules
@@ -12,20 +12,17 @@ export async function createUserInDb(
     user: User,
     writeDb?: Firestore,
 ): Promise<User & { id: string }> {
-    const writeRef = writeDb
+    const usersCollection = writeDb
         ? writeDb.collection("users")
         : clientDb.collection("users");
 
-    const docRef = await writeRef.add(user);
+    const newUserRef = await usersCollection.add(user);
 
-    return { ...user, id: docRef.id };
+    return { ...user, id: newUserRef.id };
 }
 
 /**
- * Service function to query a user in the database.
- *
- * Searches the Firestore "users" collection for a document
- * matching the provided username and password.
+ * Finds a user by username and password.
  *
  * @param {string} username - Username to search for
  * @param {string} password - Password to match
@@ -44,14 +41,14 @@ export async function queryUserInDb(
 
     if (snapshot.empty) return null;
 
-    const doc = snapshot.docs[0];
-    const data = doc.data() as User;
+    const userDoc = snapshot.docs[0];
+    const userData = userDoc.data() as User;
 
-    return { id: doc.id, ...data };
+    return { id: userDoc.id, ...userData };
 }
 
 /**
- * Service function to search users by partial username.
+ * Searches users by partial username match.
  *
  * @param usernamePart - Partial username to search for
  * @param excludeUserId - Optional ID of the current user to exclude from results
