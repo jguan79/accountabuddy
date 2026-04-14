@@ -1,3 +1,4 @@
+// ------------------------- IMPORTS ------------------------- //
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import {
     View,
@@ -18,23 +19,16 @@ import { Keyboard } from "react-native";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Homepage">;
 
-// Revisit this, maybe shared models to keep it consistent? Right now, this is all it needs.
-type Task = {
-    id: string;
-    subjectTitle: string;
-    description?: string;
-    dueDate?: number;
-    color?: string;
-    status?: "in progress" | "completed" | "overdue";
-};
+// ------------------------- FUNCTION IMPORTS ------------------------- //
+import { getTasks, deleteTask } from "../api/taskApi";
+import { getFriends } from "../api/userApi";
 
-type User = {
-    id: string;
-    firstName?: string;
-    lastName?: string;
-    username: string;
-};
+// ------------------------- MODELS ------------------------- //
+import { Task } from "../frontend_models/Task";
+import { User } from "../frontend_models/User";
+import { Friend } from "../frontend_models/Friend";
 
+// ------------------------- HOMEPAGE ------------------------- //
 export default function Homepage({ route, navigation }: Props) {
     const currentUser: User = route.params.user;
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -55,44 +49,25 @@ export default function Homepage({ route, navigation }: Props) {
     const [editDueInDays, setEditDueInDays] = useState<string>("");
     const [editColor, setEditColor] = useState("#FFD27F");
     const [editStatus, setEditStatus] = useState<
-        "in progress" | "overdue" | "completed"
-    >("in progress");
+        "in_progress" | "overdue" | "completed"
+    >("in_progress");
 
     useEffect(() => {
-        if (!currentUser) {
-            navigation.replace("Index");
-            return;
-        }
-
         async function fetchData() {
             try {
-                const getTasks = httpsCallable<{ userId: string }, Task[]>(
-                    functions,
-                    "getTasks",
-                );
-                const tasksRes = await getTasks({ userId: currentUser.id });
-                setTasks(tasksRes.data || []);
+                const tasksResponse = await getTasks(currentUser.id);
+                setTasks(tasksResponse || []);
 
-                const getFriends = httpsCallable<{ userId: string }, User[]>(
-                    functions,
-                    "getFriends",
-                );
-                const friendsResponse = await getFriends({
-                    userId: currentUser.id,
-                });
-                setFriends(friendsResponse.data || []);
+                const friendsResponse = await getFriends(currentUser.id);
+                setFriends(friendsResponse || []);
             } catch (err) {
-                console.error("Failed to load homepage data:", err);
+                console.error(err);
             } finally {
                 setLoading(false);
             }
         }
 
         fetchData();
-
-        if ((route.params as any)?.openSidebar) {
-            setTimeout(() => openSidebar(), 80);
-        }
     }, []);
 
     const weekDays = ["Su", "Mon", "T", "W", "Th", "F", "S"];
@@ -139,6 +114,8 @@ export default function Homepage({ route, navigation }: Props) {
             Alert.alert("Error", "Failed to delete task.");
         }
     }
+
+    // ------------------------------------------------DIVIDER
 
     function closeSidebar() {
         Animated.timing(sidebarAnim, {
