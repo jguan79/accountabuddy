@@ -8,6 +8,7 @@ import Homepage from "./app/homepage";
 import Signup from "./app/signup";
 import AddFriend from "./app/addFriend";
 import FriendsList from "./app/friendsList";
+import Profile from "./app/profile";
 
 export type RootStackParamList = {
     Index: undefined;
@@ -15,6 +16,7 @@ export type RootStackParamList = {
     Signup: undefined;
     AddFriend: { user: any };
     FriendsList: { user: any };
+    Profile: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -34,8 +36,7 @@ export default function App() {
                     <Stack.Screen name="Homepage" component={Homepage} />
                     <Stack.Screen name="Signup" component={Signup} />
                     <Stack.Screen name="AddFriend" component={AddFriend} />
-
-                    {/* FriendsList screen */}
+                    <Stack.Screen name="Profile" component={Profile} />
                     <Stack.Screen name="FriendsList" component={FriendsList} />
                 </Stack.Navigator>
             </NavigationContainer>

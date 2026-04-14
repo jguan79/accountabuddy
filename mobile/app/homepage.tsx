@@ -502,12 +502,10 @@ export default function Homepage({ route, navigation }: Props) {
 
                             <TouchableOpacity
                                 style={styles.sidebarItem}
-                                onPress={() =>
-                                    Alert.alert(
-                                        "Profile",
-                                        "Profile not implemented",
-                                    )
-                                }
+                                onPress={() => {
+                                    closeSidebar();
+                                    navigation.navigate("Profile");
+                                }}
                             >
                                 <Text style={styles.sidebarItemText}>
                                     Profile
