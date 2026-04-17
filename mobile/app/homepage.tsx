@@ -19,9 +19,18 @@ import { Keyboard } from "react-native";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Homepage">;
 
-// ------------------------- FUNCTION IMPORTS ------------------------- //
-import { getTasks, deleteTask } from "../api/taskApi";
-import { getFriends } from "../api/userApi";
+// ------------------------- API IMPORTS ------------------------- //
+import { getTasks, createTask, updateTask, deleteTask } from "../api/taskApi";
+import {
+    getFriends,
+    addFriend,
+    createUser,
+    loginUser,
+    queryUsers,
+} from "../api/userApi";
+
+// ------------------------ UTILITY FUNCTION IMPORTS ------------------------ //
+
 
 // ------------------------- MODELS ------------------------- //
 import { Task } from "../frontend_models/Task";
@@ -32,7 +41,7 @@ import { Friend } from "../frontend_models/Friend";
 export default function Homepage({ route, navigation }: Props) {
     const currentUser: User = route.params.user;
     const [tasks, setTasks] = useState<Task[]>([]);
-    const [friends, setFriends] = useState<User[]>([]);
+    const [friends, setFriends] = useState<Friend[]>([]);
     const [loading, setLoading] = useState(true);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const sidebarAnim = useRef(new Animated.Value(-260)).current;
@@ -70,6 +79,7 @@ export default function Homepage({ route, navigation }: Props) {
         fetchData();
     }, []);
 
+    // --------------------------DIVIDER, DO NOT EDIT BELOW THIS--------------
     const weekDays = ["Su", "Mon", "T", "W", "Th", "F", "S"];
     const now = new Date();
     const currentDate = now.getDate();
@@ -114,8 +124,6 @@ export default function Homepage({ route, navigation }: Props) {
             Alert.alert("Error", "Failed to delete task.");
         }
     }
-
-    // ------------------------------------------------DIVIDER
 
     function closeSidebar() {
         Animated.timing(sidebarAnim, {
