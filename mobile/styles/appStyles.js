@@ -399,7 +399,7 @@ export const styles = StyleSheet.create({
     modalFullScreen: {
         flex: 1,
         backgroundColor: "#D8EBD4",
-        paddingTop: 40,
+        paddingTop: 50,
     },
     modalHeaderRow: {
         flexDirection: "row",
