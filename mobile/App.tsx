@@ -16,7 +16,7 @@ export type RootStackParamList = {
     Signup: undefined;
     AddFriend: { user: any };
     FriendsList: { user: any };
-    Profile: undefined;
+    Profile: { user: any };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

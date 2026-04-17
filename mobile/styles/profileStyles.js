@@ -4,17 +4,37 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#D8EBD4",
-        padding: 30,
+        padding: 20,
+    },
+    topBar: {
+        flexDirection: "row",
+        justifyContent: "space-between",
         alignItems: "center",
+        marginBottom: 20,
+        marginTop: 40,
+    },
+    menuIcon: {
+        width: 30,
+        height: 30,
+        justifyContent: "space-around",
+    },
+    menuLine: {
+        width: 25,
+        height: 3,
+        backgroundColor: "#94C88A",
+        borderRadius: 4,
     },
     title: {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        textAlign: "center",
         fontSize: 24,
         fontWeight: "bold",
-        marginTop: 40,
-        marginBottom: 30,
     },
     imageContainer: {
         marginBottom: 15,
+        alignItems: "center",
     },
     profileImage: {
         width: 120,
@@ -38,6 +58,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 20,
         marginBottom: 30,
+        alignSelf: "center",
     },
     uploadText: {
         color: "white",

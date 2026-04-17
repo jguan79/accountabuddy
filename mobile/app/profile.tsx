@@ -1,8 +1,13 @@
 import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import { styles } from "../styles/profileStyles";
 import { useState } from "react";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../App";
 
-export default function Profile() {
+type Props = NativeStackScreenProps<RootStackParamList, "Profile">;
+
+export default function Profile({ route, navigation }: Props) {
+    const currentUser = route.params.user;
     const [username, setUsername] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -10,8 +15,23 @@ export default function Profile() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Profile</Text>
-
+            <View style={styles.topBar}>
+                <TouchableOpacity
+                    style={styles.menuIcon}
+                    onPress={() =>
+                        navigation.navigate("Homepage", {
+                            user: currentUser,
+                            openSidebar: true,
+                        })
+                    }
+                >
+                    <View style={styles.menuLine} />
+                    <View style={styles.menuLine} />
+                    <View style={styles.menuLine} />
+                </TouchableOpacity>
+                <Text style={styles.title}>Profile</Text>
+            </View>
+                
             <View style={styles.imageContainer}>
                 {profileImage ? (
                     <Image
