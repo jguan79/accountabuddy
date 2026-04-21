@@ -485,7 +485,9 @@ export default function Homepage({ route, navigation }: Props) {
                                 style={styles.sidebarItem}
                                 onPress={() => {
                                     closeSidebar();
-                                    navigation.navigate("Profile");
+                                    navigation.navigate("Profile", {
+                                        user: currentUser,
+                                    });
                                 }}
                             >
                                 <Text style={styles.sidebarItemText}>
