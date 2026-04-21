@@ -29,9 +29,6 @@ import {
     queryUsers,
 } from "../api/userApi";
 
-// ------------------------ UTILITY FUNCTION IMPORTS ------------------------ //
-
-
 // ------------------------- MODELS ------------------------- //
 import { Task } from "../frontend_models/Task";
 import { User } from "../frontend_models/User";
@@ -65,7 +62,11 @@ export default function Homepage({ route, navigation }: Props) {
         async function fetchData() {
             try {
                 const tasksResponse = await getTasks(currentUser.id);
-                setTasks(tasksResponse || []);
+                setTasks(
+                    (tasksResponse || []).filter(
+                        (task) => task.status === "in_progress",
+                    ),
+                );
 
                 const friendsResponse = await getFriends(currentUser.id);
                 setFriends(friendsResponse || []);
@@ -79,20 +80,21 @@ export default function Homepage({ route, navigation }: Props) {
         fetchData();
     }, []);
 
-    // --------------------------DIVIDER, DO NOT EDIT BELOW THIS--------------
-    const weekDays = ["Su", "Mon", "T", "W", "Th", "F", "S"];
-    const now = new Date();
-    const currentDate = now.getDate();
+    // ------------------------- DATE / UI HELPERS ------------------------- //
+    const weekDays = ["Su", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const today = new Date();
+    const todayDate = today.getDate();
 
-    // One week
-    const dates = Array.from({ length: 7 }).map((_, i) => {
-        const day = new Date();
-        day.setDate(now.getDate() - 3 + i);
+    const weekDates = Array.from({ length: 7 }).map((_, i) => {
+        const day = new Date(today);
+        day.setDate(today.getDate() - 3 + i);
         return day.getDate();
     });
 
+    // ------------------------- SIDEBAR HANDLERS ------------------------- //
     function openSidebar() {
         setSidebarOpen(true);
+
         Animated.timing(sidebarAnim, {
             toValue: 0,
             duration: 220,
@@ -100,23 +102,27 @@ export default function Homepage({ route, navigation }: Props) {
         }).start();
     }
 
+    function closeSidebar() {
+        Animated.timing(sidebarAnim, {
+            toValue: -sidebarWidth,
+            duration: 180,
+            useNativeDriver: true,
+        }).start(() => {
+            setSidebarOpen(false);
+        });
+    }
+
+    // ------------------------- TASK HANDLERS ------------------------- //
     async function handleDeleteTask() {
         if (!editingTask) return;
 
         try {
-            const deleteTask = httpsCallable(functions, "deleteTask");
-            await deleteTask({
-                userId: currentUser.id,
-                taskId: editingTask.id,
-            });
+            await deleteTask(currentUser.id, editingTask.id);
 
-            setTasks((existingTasks) =>
-                existingTasks.filter(
-                    (task: any) =>
-                        task.id !== editingTask.id &&
-                        task._id !== editingTask.id,
-                ),
+            setTasks((tasks) =>
+                tasks.filter((task) => task.id !== editingTask.id),
             );
+
             setEditModalOpen(false);
             setEditingTask(null);
         } catch (err) {
@@ -125,38 +131,29 @@ export default function Homepage({ route, navigation }: Props) {
         }
     }
 
-    function closeSidebar() {
-        Animated.timing(sidebarAnim, {
-            toValue: -sidebarWidth,
-            duration: 180,
-            useNativeDriver: true,
-        }).start(() => setSidebarOpen(false));
-    }
-
     async function handleCreateTask() {
         if (!newTitle) {
             Alert.alert("Validation", "Please enter a task title.");
             return;
         }
 
-        const days = Number.parseInt(newDueInDays, 10);
-        const validDays = Number.isNaN(days) ? 0 : days;
+        const daysToAdd = Number.parseInt(newDueInDays, 10);
+        const validDays = Number.isNaN(daysToAdd) ? 0 : daysToAdd;
+
         const dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + validDays);
 
         try {
-            const createTask = httpsCallable(functions, "createTask");
-            const response = await createTask({
+            const createdTask = await createTask({
                 subjectTitle: newTitle,
                 description: newDescription,
-                dueDate,
+                dueDate: dueDate.toISOString(),
                 color: newColor,
                 userId: currentUser.id,
+                status: "in_progress",
             });
 
-            const createdTask = response.data;
-
-            setTasks((existingTasks) => [createdTask, ...existingTasks]);
+            setTasks((prev) => [createdTask, ...prev]);
             setAddModalOpen(false);
 
             // Reset form
@@ -170,7 +167,7 @@ export default function Homepage({ route, navigation }: Props) {
         }
     }
 
-    function computeDueInDaysFromISO(dateString?: string) {
+    function getDaysUntilDue(dateString?: string) {
         if (!dateString) return undefined;
         const dueDate = new Date(dateString);
         const currentDate = new Date();
@@ -185,29 +182,27 @@ export default function Homepage({ route, navigation }: Props) {
     async function handleUpdateTask() {
         Keyboard.dismiss();
         if (!editingTask) return;
+        const updates: any = {
+            subjectTitle: editTitle,
+            description: editDescription,
+            color: editColor,
+            status: editStatus,
+        };
 
         const days = Number.parseInt(editDueInDays, 10);
-        const validDays = Number.isNaN(days) ? 0 : days;
 
-        const dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + validDays);
+        if (editDueInDays !== "" && !Number.isNaN(days)) {
+            const newDueDate = new Date(editingTask.dueDate); // base it on existing date, NOT now
+            newDueDate.setDate(newDueDate.getDate() + days);
+            updates.dueDate = newDueDate.toISOString();
+        }
 
         try {
-            const updateTask = httpsCallable(functions, "updateTask");
-
-            const response = await updateTask({
+            const updatedTask = await updateTask({
                 userId: currentUser.id,
                 taskId: editingTask.id,
-                updates: {
-                    subjectTitle: editTitle,
-                    description: editDescription,
-                    dueDate: dueDate.toISOString(),
-                    color: editColor,
-                    status: editStatus,
-                },
-            });
-
-            const updatedTask = response.data || {};
+                updates,
+            } as any);
 
             const isFinished =
                 editStatus === "completed" || editStatus === "overdue";
@@ -236,6 +231,7 @@ export default function Homepage({ route, navigation }: Props) {
             Alert.alert("Error", "Failed to update task.");
         }
     }
+
     const displayTasks = useMemo(() => {
         const normalizedTasks = tasks.map((task: any) => {
             const taskId =
@@ -245,7 +241,7 @@ export default function Homepage({ route, navigation }: Props) {
             const description = task.description || task.desc || "";
             const color = task.color || task.col || "#FFFFFF";
             const dueDate = task.dueDate || task.due || task.due_date;
-            const dueInDays = computeDueInDaysFromISO(dueDate);
+            const dueInDays = getDaysUntilDue(dueDate);
 
             return {
                 ...task,
@@ -258,6 +254,7 @@ export default function Homepage({ route, navigation }: Props) {
             };
         });
 
+        // --------- do not edit below this, will fix types later------------------
         normalizedTasks.sort((taskA: any, taskB: any) => {
             const taskADays =
                 typeof taskA.dueInDays === "number"
@@ -282,7 +279,6 @@ export default function Homepage({ route, navigation }: Props) {
             </View>
         );
     }
-
     return (
         <View style={styles.pageRoot}>
             <ScrollView style={styles.container}>
@@ -336,18 +332,18 @@ export default function Homepage({ route, navigation }: Props) {
                         ))}
                     </View>
                     <View style={styles.datesRow}>
-                        {dates.map((date, index) => (
+                        {weekDates.map((date, index) => (
                             <View
                                 key={index}
                                 style={[
                                     styles.dateCircle,
-                                    date === currentDate && styles.currentDate,
+                                    date === todayDate && styles.currentDate,
                                 ]}
                             >
                                 <Text
                                     style={[
                                         styles.dateText,
-                                        date === currentDate &&
+                                        date === todayDate &&
                                             styles.currentDateText,
                                     ]}
                                 >
@@ -374,7 +370,7 @@ export default function Homepage({ route, navigation }: Props) {
                                     : "",
                             );
                             setEditColor(task.color || "#FFD27F");
-                            setEditStatus(task.status || "in progress");
+                            setEditStatus(task.status || "in_progress");
                             setEditModalOpen(true);
                         }}
                     >
@@ -671,7 +667,7 @@ export default function Homepage({ route, navigation }: Props) {
                         <Text style={styles.fieldLabel}>Status</Text>
                         <View style={styles.statusRow}>
                             {[
-                                { key: "in progress", label: "In Progress" },
+                                { key: "in_progress", label: "In Progress" },
                                 { key: "overdue", label: "Overdue" },
                                 { key: "completed", label: "Completed" },
                             ].map((status) => (

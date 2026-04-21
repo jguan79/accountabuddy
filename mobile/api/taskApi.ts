@@ -8,16 +8,16 @@ export async function getTasks(userId: string) {
     return response.data as (Task & { id: string })[];
 }
 
-export async function createTask(data: Task) {
+export async function createTask(data: Omit<Task, "id">) {
     const createTaskCallable = httpsCallable(functions, "createTask");
     const response = await createTaskCallable(data);
-    return response.data;
+    return response.data as Task & { id: string };
 }
 
 export async function updateTask(data: Task) {
     const updateTaskCallable = httpsCallable(functions, "updateTask");
     const response = await updateTaskCallable(data);
-    return response.data;
+    return response.data as Task & { id: string };
 }
 
 export async function deleteTask(userId: string, taskId: string) {

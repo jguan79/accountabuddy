@@ -1,7 +1,8 @@
-export type TaskStatus = "in progress" | "completed" | "overdue";
+export type TaskStatus = "in_progress" | "completed" | "overdue";
 
 export interface Task {
-    id: string;
+    id: string; // Firestore ID (for frontend purposes only)
+    userId: string;
     subjectTitle: string;
     description?: string;
     dueDate?: string;
