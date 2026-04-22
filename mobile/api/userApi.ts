@@ -30,5 +30,5 @@ export async function loginUser(username: string, password: string) {
 export async function queryUsers(usernamePart: string, currentUserId?: string) {
     const queryUsersCallable = httpsCallable(functions, "queryUsers");
     const response = await queryUsersCallable({ usernamePart, currentUserId });
-    return response.data;
+    return response.data as any;
 }

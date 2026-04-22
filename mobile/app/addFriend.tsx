@@ -7,11 +7,10 @@ import {
     FlatList,
     Alert,
 } from "react-native";
-import { httpsCallable } from "firebase/functions";
-import { functions } from "../firebase";
 import { styles } from "../styles/appStyles";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
+import { queryUsers, addFriend } from "@/api/userApi";
 
 type Props = NativeStackScreenProps<RootStackParamList, "AddFriend">;
 
@@ -29,12 +28,8 @@ export default function AddFriend({ route, navigation }: Props) {
 
         setSearching(true);
         try {
-            const fn = httpsCallable(functions, "queryUsers");
-            const res = await fn({
-                usernamePart: query.trim(),
-                currentUserId: currentUser.id,
-            });
-            setResults(res.data || []);
+            const res = await queryUsers(query.trim(), currentUser.id);
+            setResults(res || []);
         } catch (err) {
             console.error("Search failed", err);
             Alert.alert("Error", "Failed to search users.");
@@ -45,8 +40,7 @@ export default function AddFriend({ route, navigation }: Props) {
 
     async function handleAddFriend(friend: any) {
         try {
-            const fn = httpsCallable(functions, "addFriend");
-            await fn({ userId: currentUser.id, friendId: friend.id });
+            await addFriend(currentUser.id, friend.id);
             Alert.alert(
                 "Friend added",
                 `You are now friends with ${friend.username || friend.firstName}`,
