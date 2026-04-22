@@ -1,12 +1,11 @@
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../styles/globalStyles";
-import { functions } from "../firebase";
-import { httpsCallable } from "firebase/functions";
 import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../App";
 import { ScrollView } from "react-native";
+import { createUser } from "@/api/userApi";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
 
@@ -25,21 +24,21 @@ export default function Signup() {
         }
 
         try {
-            const createUser = httpsCallable(functions, "createUser");
-            const response = await createUser({
+            const user = await createUser({
                 firstName,
                 lastName,
                 username,
                 password,
             });
 
-            if (response.data) {
-                console.log("New user created:", response.data);
-                Alert.alert("Success", "User created successfully!");
-                navigation.navigate("Homepage", { user: response.data });
-            } else {
+            if (!user) {
                 Alert.alert("Error", "Failed to create user.");
+                return;
             }
+
+            console.log("New user created:", user);
+            Alert.alert("Success", "User created successfully!");
+            navigation.navigate("Homepage", { user });
         } catch (error) {
             console.error("Signup error:", error);
             Alert.alert("Error", "Something went wrong while signing up.");

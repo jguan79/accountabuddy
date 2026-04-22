@@ -1,7 +1,7 @@
 import { httpsCallable } from "firebase/functions";
 import { functions } from "../firebase";
 import { Friend } from "../frontend_models/Friend";
-import { User } from "../frontend_models/User";
+import { CreateUserInput, User } from "../frontend_models/User";
 
 export async function getFriends(userId: string) {
     const getFriendsCallable = httpsCallable(functions, "getFriends");
@@ -15,10 +15,10 @@ export async function addFriend(userId: string, friendId: string) {
     return response.data;
 }
 
-export async function createUser(data: User) {
+export async function createUser(data: CreateUserInput) {
     const createUserCallable = httpsCallable(functions, "createUser");
     const response = await createUserCallable(data);
-    return response.data;
+    return response.data as User;
 }
 
 export async function loginUser(username: string, password: string) {

@@ -31,7 +31,7 @@ export default function Index() {
             navigation.navigate("Homepage", { user });
         } catch (error) {
             console.log("Logged error:", error);
-            Alert.alert("Error", "Something went wrong when loggin in.");
+            Alert.alert("Error", "Something went wrong when logging in.");
         }
     };
 
