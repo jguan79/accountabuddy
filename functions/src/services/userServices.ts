@@ -1,6 +1,7 @@
 import { User } from "../models/User";
 import { db as clientDb } from "../firebase";
 import type { Firestore } from "firebase-admin/firestore";
+import { getFriendsForUser } from "./friendServices";
 
 /**
  * Creates a new user in the database.
@@ -60,19 +61,27 @@ export async function queryUsersByUsername(
 ): Promise<(Omit<User, "password"> & { id: string })[]> {
     const snapshot = await clientDb.collection("users").get();
 
-    const users: (Omit<User, "password"> & { id: string })[] = [];
+    const matchedUsers: (Omit<User, "password"> & { id: string })[] = [];
+
+    let existingFriendIds = new Set<string>();
+
+    if (excludeUserId) {
+        const userFriends = await getFriendsForUser(excludeUserId);
+        existingFriendIds = new Set(userFriends.map((friend) => friend.userId));
+    }
 
     snapshot.docs.forEach((doc) => {
         const data = doc.data() as User;
         const id = doc.id;
 
         if (excludeUserId && id === excludeUserId) return;
+        if (existingFriendIds.has(id)) return;
 
         if (data.username.toLowerCase().includes(usernamePart.toLowerCase())) {
             const { password, ...safeData } = data;
-            users.push({ id, ...safeData });
+            matchedUsers.push({ id, ...safeData });
         }
     });
 
-    return users;
+    return matchedUsers;
 }

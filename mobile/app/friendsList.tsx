@@ -7,25 +7,24 @@ import {
     Alert,
     ActivityIndicator,
 } from "react-native";
-import { httpsCallable } from "firebase/functions";
-import { functions } from "../firebase";
 import { styles } from "../styles/appStyles";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
+import { getFriends } from "@/api/userApi";
+import { Friend } from "@/frontend_models/Friend";
 
 type Props = NativeStackScreenProps<RootStackParamList, "FriendsList">;
 
 export default function FriendsList({ route, navigation }: Props) {
     const currentUser = route.params.user;
-    const [friends, setFriends] = useState<any[]>([]);
+    const [friends, setFriends] = useState<Friend[]>([]);
     const [loading, setLoading] = useState(true);
 
     async function fetchFriends() {
         setLoading(true);
         try {
-            const fn = httpsCallable(functions, "getFriends");
-            const res = await fn({ userId: currentUser.id });
-            setFriends(res.data || []);
+            const response = await getFriends(currentUser.id);
+            setFriends(response || []);
         } catch (err) {
             console.error("Failed to fetch friends", err);
             Alert.alert("Error", "Could not load friends.");
@@ -38,7 +37,7 @@ export default function FriendsList({ route, navigation }: Props) {
         fetchFriends();
     }, []);
 
-    function renderItem({ item }: { item: any }) {
+    function renderItem({ item }: { item: Friend }) {
         return (
             <View style={styles.resultRow}>
                 <View>
@@ -86,7 +85,7 @@ export default function FriendsList({ route, navigation }: Props) {
             ) : (
                 <FlatList
                     data={friends}
-                    keyExtractor={(i) => i.userId || i.id}
+                    keyExtractor={(i) => i.userId}
                     renderItem={renderItem}
                     contentContainerStyle={styles.addFriendResults}
                     ListEmptyComponent={() => (
