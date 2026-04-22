@@ -1,11 +1,10 @@
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { styles } from "../styles/globalStyles";
-import { functions } from "../firebase";
-import { httpsCallable } from "firebase/functions";
 import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../App";
+import { loginUser } from "../api/userApi";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Index">;
 
@@ -21,18 +20,18 @@ export default function Index() {
         }
 
         try {
-            const loginUserFn = httpsCallable(functions, "loginUser");
-            const response = await loginUserFn({ username, password });
+            const user = await loginUser(username, password);
 
-            if (response.data) {
-                console.log("Logged in user:", response.data);
-                navigation.navigate("Homepage", { user: response.data });
-            } else {
+            if (!user) {
                 Alert.alert("Login Failed", "Invalid username or password.");
+                return;
             }
+
+            console.log("Logged in user:", user);
+            navigation.navigate("Homepage", { user });
         } catch (error) {
-            console.error("Login error:", error);
-            Alert.alert("Error", "Something went wrong while logging in.");
+            console.log("Logged error:", error);
+            Alert.alert("Error", "Something went wrong when loggin in.");
         }
     };
 
