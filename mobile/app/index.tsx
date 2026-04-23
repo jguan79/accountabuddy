@@ -1,4 +1,12 @@
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+// ------------------------- IMPORTS ------------------------- //
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    Alert,
+    ScrollView,
+} from "react-native";
 import { styles } from "../styles/globalStyles";
 import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -8,6 +16,7 @@ import { loginUser } from "../api/userApi";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Index">;
 
+// ------------------------- LOGIN PAGE ------------------------- //
 export default function Index() {
     const navigation = useNavigation<NavigationProp>();
     const [username, setUsername] = useState("");
@@ -15,7 +24,10 @@ export default function Index() {
 
     const handleLogin = async () => {
         if (!username || !password) {
-            Alert.alert("Error", "Please enter both username and password.");
+            Alert.alert(
+                "Missing info",
+                "Please enter both username and password.",
+            );
             return;
         }
 
@@ -23,7 +35,7 @@ export default function Index() {
             const user = await loginUser(username, password);
 
             if (!user) {
-                Alert.alert("Login Failed", "Invalid username or password.");
+                Alert.alert("Login Failed", "Incorrect username or password.");
                 return;
             }
 
@@ -31,42 +43,62 @@ export default function Index() {
             navigation.navigate("Homepage", { user });
         } catch (error) {
             console.log("Logged error:", error);
-            Alert.alert("Error", "Something went wrong when logging in.");
+            Alert.alert("Error", "Couldn't log you in. Try again.");
         }
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.logo}>
-                <Text style={styles.logoText}>Logo</Text>
+        <ScrollView
+            style={{ flex: 1, backgroundColor: "#EAF4E6" }}
+            bounces={false}
+        >
+            <View style={styles.heroSection}>
+                <View style={styles.logo}>
+                    <Text style={styles.logoText}>Logo</Text>
+                </View>
+                <Text style={styles.appName}>Accountabuddy</Text>
+                <Text style={styles.welcomeText}>
+                    Build better habits with friends
+                </Text>
             </View>
 
-            <Text style={styles.label}>Username</Text>
-            <TextInput
-                style={styles.input}
-                value={username}
-                onChangeText={setUsername}
-                autoCapitalize="none"
-            />
+            <View style={styles.formCard}>
+                <Text style={styles.label}>Username</Text>
+                <TextInput
+                    style={styles.input}
+                    value={username}
+                    onChangeText={setUsername}
+                    autoCapitalize="none"
+                    placeholder="Enter your username"
+                    placeholderTextColor="#9DBF99"
+                />
 
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-                style={styles.input}
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
-            />
+                <Text style={styles.label}>Password</Text>
+                <TextInput
+                    style={styles.input}
+                    secureTextEntry
+                    value={password}
+                    onChangeText={setPassword}
+                    placeholder="Enter your password"
+                    placeholderTextColor="#9DBF99"
+                />
 
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.loginButton}
+                    onPress={handleLogin}
+                >
+                    <Text style={styles.buttonText}>Log In</Text>
+                </TouchableOpacity>
 
-            <Text
-                style={styles.signupText}
-                onPress={() => navigation.navigate("Signup")}
-            >
-                Don't have an account? Sign up
-            </Text>
-        </View>
+                <View style={styles.divider} />
+
+                <Text
+                    style={styles.signText}
+                    onPress={() => navigation.navigate("Signup")}
+                >
+                    Don't have an account? Sign up
+                </Text>
+            </View>
+        </ScrollView>
     );
 }

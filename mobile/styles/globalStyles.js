@@ -1,203 +1,177 @@
 import { StyleSheet } from "react-native";
 
+const COLORS = {
+    primary: "#6BAE62",
+    background: "#EAF4E6",
+    card: "#F2F8F1",
+    border: "#C8E0C4",
+    textDark: "#1E3A1A",
+};
+
 export const styles = StyleSheet.create({
-    // ------------------------
-    // Containers
-    // ------------------------
+    /* Container */
     container: {
         flex: 1,
-        backgroundColor: "#D8EBD4",
-        padding: 30,
-        justifyContent: "center",
+        backgroundColor: COLORS.background,
     },
 
-    signup_container: {
-        flex: 1,
-        backgroundColor: "#D8EBD4",
-    },
-
-    // ------------------------
-    // Logo styles
-    // ------------------------
-    logo: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
-        backgroundColor: "#94C88A",
-        alignSelf: "center",
-        justifyContent: "center",
+    heroSection: {
+        paddingTop: 80,
         alignItems: "center",
+        backgroundColor: COLORS.primary,
+        borderBottomRightRadius: 36,
+        paddingBottom: 55,
+        borderBottomLeftRadius: 36,
+    },
+
+    logo: {
+        justifyContent: "center",
+        width: 88,
+        marginBottom: 14,
+        alignItems: "center",
+        height: 88,
+        borderRadius: 44,
+        borderWidth: 2,
+        borderColor: "rgba(255,255,255,0.5)",
+        backgroundColor: "rgba(255,255,255,0.25)",
     },
 
     logoSmall: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-        backgroundColor: "#94C88A",
-        alignSelf: "center",
+        marginBottom: 10,
         justifyContent: "center",
+        height: 70,
+        width: 70,
         alignItems: "center",
-        marginTop: 20,
-        marginBottom: 20,
+        borderRadius: 35,
+        borderWidth: 2,
+        backgroundColor: "rgba(255,255,255,0.25)",
+        borderColor: "rgba(255,255,255,0.5)",
     },
 
     logoText: {
+        fontSize: 18,
         color: "white",
-        fontSize: 20,
-        fontWeight: "bold",
+        fontWeight: "700",
     },
 
     logoTextSmall: {
+        fontSize: 13,
         color: "white",
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-
-    // ------------------------
-    // Text styles
-    // ------------------------
-    label: {
-        fontSize: 18,
-        marginBottom: 8,
-        marginTop: 50,
-        fontWeight: "bold",
-    },
-
-    labelSmall: {
-        fontSize: 14,
-        marginBottom: 6,
-        marginTop: 12,
-        fontWeight: "bold",
-    },
-
-    buttonText: {
-        fontSize: 18,
-    },
-
-    checkboxText: {
-        fontSize: 14,
-    },
-
-    signupText: {
-        textAlign: "center",
-        fontSize: 14,
-        fontWeight: "bold",
-    },
-
-    signinText: {
-        textAlign: "center",
-        fontSize: 14,
-        fontWeight: "bold",
-    },
-
-    welcomeText: {
-        fontSize: 25,
-        textAlign: "center",
-        marginBottom: 5,
+        fontWeight: "700",
     },
 
     appName: {
-        fontSize: 40,
-        fontWeight: "bold",
-        textAlign: "center",
-        color: "#94C88A",
-        marginBottom: 15,
+        fontSize: 34,
+        color: "white",
+        fontWeight: "800",
+        marginBottom: 6,
+    },
+
+    welcomeText: {
+        fontSize: 14,
+        color: "rgba(255,255,255,0.85)",
     },
 
     title: {
-        fontSize: 28,
-        fontWeight: "bold",
-        marginBottom: 10,
-        paddingTop: 20,
+        fontSize: 25,
+        color: COLORS.textDark,
+        marginBottom: 8,
+        fontWeight: "700",
+        paddingTop: 18,
     },
 
-    // ------------------------
-    // Inputs
-    // ------------------------
+    label: {
+        fontSize: 13,
+        color: "#3D6B37",
+        fontWeight: "600",
+        marginBottom: 6,
+        marginTop: 18,
+        textTransform: "uppercase",
+    },
+
+    buttonText: {
+        fontSize: 15,
+        fontWeight: "700",
+        color: "white",
+    },
+
+    forgotPassword: {
+        fontSize: 13,
+        textAlign: "center",
+        marginTop: 12,
+        fontWeight: "600",
+        color: COLORS.primary,
+    },
+
+    formCard: {
+        marginHorizontal: 20,
+        backgroundColor: "white",
+        padding: 24,
+        borderRadius: 24,
+        marginTop: -26,
+        elevation: 6,
+    },
+
     input: {
-        backgroundColor: "#94C88A",
-        borderRadius: 25,
-        padding: 15,
-        fontSize: 16,
+        paddingHorizontal: 16,
+        backgroundColor: COLORS.card,
+        fontSize: 15,
+        borderRadius: 12,
+        color: COLORS.textDark,
+        paddingVertical: 12,
+        borderColor: COLORS.border,
+        borderWidth: 1,
     },
 
-    // ------------------------
-    // Buttons
-    // ------------------------
     loginButton: {
-        borderColor: "#94C88A",
-        backgroundColor: "#D8EBD4",
-        borderRadius: 25,
-        borderWidth: 3,
-        padding: 10,
+        marginTop: 24,
         alignItems: "center",
-        alignSelf: "center",
-        marginTop: 30,
-        width: "40%",
+        backgroundColor: COLORS.primary,
+        paddingVertical: 14,
+        borderRadius: 14,
+        elevation: 5,
     },
 
     nextButton: {
-        borderColor: "#94C88A",
-        backgroundColor: "#D8EBD4",
-        borderRadius: 25,
-        borderWidth: 3,
-        padding: 10,
-        alignItems: "center",
         alignSelf: "center",
         marginTop: 20,
-        marginBottom: 14,
-        width: "40%",
+        backgroundColor: COLORS.primary,
+        width: "55%",
+        paddingVertical: 13,
+        borderRadius: 14,
+        alignItems: "center",
+        marginBottom: 12,
     },
 
-    // ------------------------
-    // Signup layout
-    // ------------------------
     titleSection: {
-        backgroundColor: "#E7F0F1",
-        paddingTop: 50,
-        paddingBottom: 50,
+        paddingTop: 55,
+        backgroundColor: COLORS.primary,
         alignItems: "center",
+        paddingBottom: 45,
+        borderBottomRightRadius: 36,
+        borderBottomLeftRadius: 36,
     },
 
     inputSection: {
-        backgroundColor: "#D8EBD4",
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        marginTop: -20,
-        padding: 30,
+        marginHorizontal: 20,
+        padding: 24,
+        backgroundColor: "white",
+        borderRadius: 24,
+        marginTop: -22,
     },
 
-    // ------------------------
-    // Misc UI elements
-    // ------------------------
-    checkboxContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginTop: 20,
-    },
-
-    checkbox: {
-        width: 20,
-        height: 20,
-        borderRadius: 4,
-        borderWidth: 2,
-        borderColor: "#94C88A",
-        backgroundColor: "#D8EBD4",
-        marginRight: 10,
+    signText: {
+        textAlign: "center",
+        fontSize: 14,
+        color: "#4A7244",
+        fontWeight: "600",
+        marginTop: 10,
     },
 
     divider: {
         height: 1,
-        backgroundColor: "#94C88A",
-        marginTop: 20,
-        marginBottom: 20,
+        marginVertical: 18,
+        backgroundColor: COLORS.border,
         width: "100%",
-    },
-
-    forgotPassword: {
-        fontSize: 14,
-        textAlign: "center",
-        marginTop: 100,
-        fontWeight: "bold",
     },
 });

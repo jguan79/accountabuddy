@@ -1,14 +1,22 @@
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+// ------------------------- IMPORTS ------------------------- //
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    Alert,
+    ScrollView,
+} from "react-native";
 import { styles } from "../styles/globalStyles";
 import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../App";
-import { ScrollView } from "react-native";
 import { createUser } from "@/api/userApi";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
 
+// ------------------------- SIGNUP PAGE ------------------------- //
 export default function Signup() {
     const navigation = useNavigation<NavigationProp>();
 
@@ -32,7 +40,7 @@ export default function Signup() {
             });
 
             if (!user) {
-                Alert.alert("Error", "Failed to create user.");
+                Alert.alert("Signup failed.", "Couldn't create your account.");
                 return;
             }
 
@@ -46,7 +54,7 @@ export default function Signup() {
     };
 
     return (
-        <ScrollView style={styles.signup_container}>
+        <ScrollView style={styles.container}>
             <View style={styles.titleSection}>
                 <View style={styles.logoSmall}>
                     <Text style={styles.logoTextSmall}>Logo</Text>
@@ -96,15 +104,11 @@ export default function Signup() {
                     <Text style={styles.buttonText}>Next</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.signinText}>
-                    Already have an account?
-                    <Text
-                        style={styles.signinText}
-                        onPress={() => navigation.navigate("Index")}
-                    >
-                        {" "}
-                        Sign in
-                    </Text>
+                <Text
+                    style={styles.signText}
+                    onPress={() => navigation.navigate("Index")}
+                >
+                    Already have an account? Sign in
                 </Text>
             </View>
         </ScrollView>
