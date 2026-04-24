@@ -8,6 +8,7 @@ import {
     Alert,
     Modal,
     TextInput,
+    TouchableWithoutFeedback,
 } from "react-native";
 import { Animated, Dimensions } from "react-native";
 import { styles, taskCardBackground } from "../styles/appStyles";
@@ -16,6 +17,7 @@ import { httpsCallable } from "firebase/functions";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
 import { Keyboard } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Homepage">;
 
@@ -293,9 +295,11 @@ export default function Homepage({ route, navigation }: Props) {
                         <View style={styles.menuLine} />
                     </TouchableOpacity>
 
-                    <View style={styles.streakBadge}>
-                        <Text style={styles.streak}>☀️</Text>
-                        <Text style={styles.streakText}>12</Text>
+                    <View style={styles.statBadge}>
+                        <Text style={styles.statLabel}>Active Tasks:</Text>
+                        <Text style={styles.statNumber}>
+                            {displayTasks.length}
+                        </Text>
                     </View>
 
                     <TouchableOpacity
@@ -307,7 +311,12 @@ export default function Homepage({ route, navigation }: Props) {
                             )
                         }
                     >
-                        <Text style={styles.bell}>🔔</Text>
+                        <Ionicons
+                            name="notifications-outline"
+                            size={30}
+                            color="#66BB6A"
+                        ></Ionicons>
+
                         <View style={styles.notificationDot} />
                     </TouchableOpacity>
                 </View>
@@ -514,220 +523,255 @@ export default function Homepage({ route, navigation }: Props) {
             ) : null}
             {/* Add Task Modal */}
             <Modal visible={addModalOpen} animationType="slide" transparent>
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalContainer}>
-                        <Text style={styles.modalHeader}>Add Task</Text>
-                        <Text style={styles.fieldLabel}>Subject Title</Text>
-                        <TextInput
-                            style={styles.pillInput}
-                            placeholder="e.g. Math, Compilers"
-                            placeholderTextColor="rgba(0,0,0,0.4)"
-                            value={newTitle}
-                            onChangeText={setNewTitle}
-                        />
-
-                        <Text style={styles.fieldLabel}>
-                            Description (optional)
-                        </Text>
-                        <TextInput
-                            style={[styles.pillInput, styles.largeInput]}
-                            placeholder="Add notes or steps..."
-                            placeholderTextColor="rgba(0,0,0,0.4)"
-                            value={newDescription}
-                            onChangeText={setNewDescription}
-                            multiline
-                        />
-
-                        <Text style={styles.fieldLabel}>Due in (days)</Text>
-                        <TextInput
-                            style={styles.pillInput}
-                            placeholder="e.g. 3"
-                            placeholderTextColor="rgba(0,0,0,0.4)"
-                            value={newDueInDays}
-                            onChangeText={setNewDueInDays}
-                            keyboardType="numeric"
-                        />
-
-                        <Text style={styles.fieldLabel}>Color</Text>
-                        <View style={styles.colorRow}>
-                            {[
-                                "#ffffff",
-                                "#000000",
-                                "#bfbfbf",
-                                "#FFD27F",
-                                "#FFA07A",
-                                "#7BD389",
-                                "#66BB6A",
-                            ].map((color) => (
-                                <TouchableOpacity
-                                    key={color}
-                                    style={[
-                                        styles.colorDot,
-                                        { backgroundColor: color },
-                                        newColor === color
-                                            ? styles.colorDotSelected
-                                            : null,
-                                    ]}
-                                    onPress={() => setNewColor(color)}
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.modalOverlay}>
+                        <TouchableWithoutFeedback onPress={() => {}}>
+                            <View style={styles.modalContainer}>
+                                <Text style={styles.modalHeader}>Add Task</Text>
+                                <Text style={styles.fieldLabel}>
+                                    Subject Title
+                                </Text>
+                                <TextInput
+                                    style={styles.pillInput}
+                                    placeholder="e.g. Math, Compilers"
+                                    placeholderTextColor="rgba(0,0,0,0.4)"
+                                    value={newTitle}
+                                    onChangeText={setNewTitle}
                                 />
-                            ))}
-                        </View>
 
-                        <View style={styles.modalButtons}>
-                            <TouchableOpacity
-                                style={[
-                                    styles.modalButton,
-                                    styles.modalButtonOutline,
-                                ]}
-                                onPress={() => setAddModalOpen(false)}
-                            >
-                                <Text
-                                    style={[
-                                        styles.modalButtonText,
-                                        styles.modalButtonTextOutline,
-                                    ]}
-                                >
-                                    Cancel
+                                <Text style={styles.fieldLabel}>
+                                    Description (optional)
                                 </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[
-                                    styles.modalButton,
-                                    styles.modalButtonPrimary,
-                                ]}
-                                onPress={handleCreateTask}
-                            >
-                                <Text
+                                <TextInput
                                     style={[
-                                        styles.modalButtonText,
-                                        styles.modalButtonTextPrimary,
+                                        styles.pillInput,
+                                        styles.largeInput,
                                     ]}
-                                >
-                                    Create
+                                    placeholder="Add notes or steps..."
+                                    placeholderTextColor="rgba(0,0,0,0.4)"
+                                    value={newDescription}
+                                    onChangeText={setNewDescription}
+                                    multiline
+                                />
+
+                                <Text style={styles.fieldLabel}>
+                                    Due in (days)
                                 </Text>
-                            </TouchableOpacity>
-                        </View>
+                                <TextInput
+                                    style={styles.pillInput}
+                                    placeholder="e.g. 3"
+                                    placeholderTextColor="rgba(0,0,0,0.4)"
+                                    value={newDueInDays}
+                                    onChangeText={setNewDueInDays}
+                                    keyboardType="numeric"
+                                />
+
+                                <Text style={styles.fieldLabel}>Color</Text>
+                                <View style={styles.colorRow}>
+                                    {[
+                                        "#ffffff",
+                                        "#000000",
+                                        "#bfbfbf",
+                                        "#FFD27F",
+                                        "#FFA07A",
+                                        "#7BD389",
+                                        "#66BB6A",
+                                    ].map((color) => (
+                                        <TouchableOpacity
+                                            key={color}
+                                            style={[
+                                                styles.colorDot,
+                                                { backgroundColor: color },
+                                                newColor === color
+                                                    ? styles.colorDotSelected
+                                                    : null,
+                                            ]}
+                                            onPress={() => setNewColor(color)}
+                                        />
+                                    ))}
+                                </View>
+
+                                <View style={styles.modalButtons}>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.modalButton,
+                                            styles.modalButtonOutline,
+                                        ]}
+                                        onPress={() => setAddModalOpen(false)}
+                                    >
+                                        <Text
+                                            style={[
+                                                styles.modalButtonText,
+                                                styles.modalButtonTextOutline,
+                                            ]}
+                                        >
+                                            Cancel
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.modalButton,
+                                            styles.modalButtonPrimary,
+                                        ]}
+                                        onPress={handleCreateTask}
+                                    >
+                                        <Text
+                                            style={[
+                                                styles.modalButtonText,
+                                                styles.modalButtonTextPrimary,
+                                            ]}
+                                        >
+                                            Create
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             </Modal>
             {/* Edit Task Modal */}
+            {/* Edit Task Modal */}
             <Modal visible={editModalOpen} animationType="slide" transparent>
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalContainer}>
-                        <Text style={styles.modalHeader}>Edit Task</Text>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.modalOverlay}>
+                        <TouchableWithoutFeedback onPress={() => {}}>
+                            <View style={styles.modalContainer}>
+                                <Text style={styles.modalHeader}>
+                                    Edit Task
+                                </Text>
 
-                        <Text style={styles.fieldLabel}>Subject Title</Text>
-                        <TextInput
-                            style={styles.pillInput}
-                            placeholder="Subject title"
-                            value={editTitle}
-                            onChangeText={setEditTitle}
-                        />
-
-                        <Text style={styles.fieldLabel}>Description</Text>
-                        <TextInput
-                            style={[styles.pillInput, styles.largeInput]}
-                            placeholder="Description"
-                            value={editDescription}
-                            onChangeText={setEditDescription}
-                            multiline
-                        />
-
-                        <Text style={styles.fieldLabel}>Due in (days)</Text>
-                        <TextInput
-                            style={styles.pillInput}
-                            placeholder="example: 3"
-                            value={editDueInDays}
-                            onChangeText={setEditDueInDays}
-                            keyboardType="numeric"
-                        />
-
-                        <Text style={styles.fieldLabel}>Color</Text>
-                        <View style={styles.colorRow}>
-                            {[
-                                "#FFD27F",
-                                "#FFA07A",
-                                "#7BD389",
-                                "#66BB6A",
-                                "#ffffff",
-                                "#bfbfbf",
-                            ].map((color) => (
-                                <TouchableOpacity
-                                    key={color}
-                                    style={[
-                                        styles.colorDot,
-                                        { backgroundColor: color },
-                                        editColor === color
-                                            ? styles.colorDotSelected
-                                            : null,
-                                    ]}
-                                    onPress={() => setEditColor(color)}
+                                <Text style={styles.fieldLabel}>
+                                    Subject Title
+                                </Text>
+                                <TextInput
+                                    style={styles.pillInput}
+                                    placeholder="Subject title"
+                                    value={editTitle}
+                                    onChangeText={setEditTitle}
                                 />
-                            ))}
-                        </View>
 
-                        <Text style={styles.fieldLabel}>Status</Text>
-                        <View style={styles.statusRow}>
-                            {[
-                                { key: "in_progress", label: "In Progress" },
-                                { key: "overdue", label: "Overdue" },
-                                { key: "completed", label: "Completed" },
-                            ].map((status) => (
-                                <TouchableOpacity
-                                    key={status.key}
+                                <Text style={styles.fieldLabel}>
+                                    Description
+                                </Text>
+                                <TextInput
                                     style={[
-                                        styles.statusButton,
-                                        editStatus === (status.key as any)
-                                            ? styles.statusButtonSelected
-                                            : null,
+                                        styles.pillInput,
+                                        styles.largeInput,
                                     ]}
-                                    onPress={() =>
-                                        setEditStatus(status.key as any)
-                                    }
-                                >
-                                    <Text style={styles.statusText}>
-                                        {status.label}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
+                                    placeholder="Description"
+                                    value={editDescription}
+                                    onChangeText={setEditDescription}
+                                    multiline
+                                />
 
-                        <View style={styles.modalButtons}>
-                            <TouchableOpacity
-                                style={[
-                                    styles.modalButton,
-                                    styles.modalButtonOutline,
-                                ]}
-                                onPress={() => setEditModalOpen(false)}
-                            >
-                                <Text
-                                    style={[
-                                        styles.modalButtonText,
-                                        styles.modalButtonTextOutline,
-                                    ]}
-                                >
-                                    Cancel
+                                <Text style={styles.fieldLabel}>
+                                    Due in (days)
                                 </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[
-                                    styles.modalButton,
-                                    styles.modalButtonPrimary,
-                                ]}
-                                onPress={handleUpdateTask}
-                            >
-                                <Text
-                                    style={[
-                                        styles.modalButtonText,
-                                        styles.modalButtonTextPrimary,
-                                    ]}
-                                >
-                                    Save
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
+                                <TextInput
+                                    style={styles.pillInput}
+                                    placeholder="example: 3"
+                                    value={editDueInDays}
+                                    onChangeText={setEditDueInDays}
+                                    keyboardType="numeric"
+                                />
+
+                                <Text style={styles.fieldLabel}>Color</Text>
+                                <View style={styles.colorRow}>
+                                    {[
+                                        "#FFD27F",
+                                        "#FFA07A",
+                                        "#7BD389",
+                                        "#66BB6A",
+                                        "#ffffff",
+                                        "#bfbfbf",
+                                    ].map((color) => (
+                                        <TouchableOpacity
+                                            key={color}
+                                            style={[
+                                                styles.colorDot,
+                                                { backgroundColor: color },
+                                                editColor === color
+                                                    ? styles.colorDotSelected
+                                                    : null,
+                                            ]}
+                                            onPress={() => setEditColor(color)}
+                                        />
+                                    ))}
+                                </View>
+
+                                <Text style={styles.fieldLabel}>Status</Text>
+                                <View style={styles.statusRow}>
+                                    {[
+                                        {
+                                            key: "in_progress",
+                                            label: "In Progress",
+                                        },
+                                        { key: "overdue", label: "Overdue" },
+                                        {
+                                            key: "completed",
+                                            label: "Completed",
+                                        },
+                                    ].map((status) => (
+                                        <TouchableOpacity
+                                            key={status.key}
+                                            style={[
+                                                styles.statusButton,
+                                                editStatus ===
+                                                (status.key as any)
+                                                    ? styles.statusButtonSelected
+                                                    : null,
+                                            ]}
+                                            onPress={() =>
+                                                setEditStatus(status.key as any)
+                                            }
+                                        >
+                                            <Text style={styles.statusText}>
+                                                {status.label}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
+
+                                <View style={styles.modalButtons}>
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.modalButton,
+                                            styles.modalButtonOutline,
+                                        ]}
+                                        onPress={() => setEditModalOpen(false)}
+                                    >
+                                        <Text
+                                            style={[
+                                                styles.modalButtonText,
+                                                styles.modalButtonTextOutline,
+                                            ]}
+                                        >
+                                            Cancel
+                                        </Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        style={[
+                                            styles.modalButton,
+                                            styles.modalButtonPrimary,
+                                        ]}
+                                        onPress={handleUpdateTask}
+                                    >
+                                        <Text
+                                            style={[
+                                                styles.modalButtonText,
+                                                styles.modalButtonTextPrimary,
+                                            ]}
+                                        >
+                                            Save
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             </Modal>
         </View>
     );

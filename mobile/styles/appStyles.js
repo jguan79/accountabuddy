@@ -21,23 +21,28 @@ export const styles = StyleSheet.create({
     menuLine: {
         width: 25,
         height: 3,
-        backgroundColor: "#94C88A",
+        backgroundColor: "#66BB6A",
         borderRadius: 4,
     },
-    streakBadge: {
+    statBadge: {
         flexDirection: "row",
         alignItems: "center",
         paddingHorizontal: 15,
-        paddingVertical: 8,
-        borderRadius: 20,
+        paddingVertical: 6,
+        borderRadius: 16,
+        gap: 6,
+        backgroundColor: "#F6F8F6",
     },
-    streak: {
-        fontSize: 24,
-        marginRight: 5,
+    statLabel: {
+        fontSize: 12,
+        fontWeight: "500",
+        color: "#6B6B6B",
     },
-    streakText: {
-        fontSize: 18,
-        fontWeight: "bold",
+
+    statNumber: {
+        fontSize: 14,
+        color: "#2E7D32",
+        fontWeight: "600",
     },
     bellIcon: {
         position: "relative",
@@ -113,65 +118,64 @@ export const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 15,
     },
+
+    /* Task stuff, comment later */
     taskCard: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         marginHorizontal: 20,
-        marginBottom: 15,
-        padding: 15,
-        borderRadius: 40,
+        marginBottom: 12,
+        padding: 16,
+        borderRadius: 20,
+        backgroundColor: "#fff",
+        overflow: "hidden",
     },
     taskLeft: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    nameRow: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    tagBadge: {
-        backgroundColor: "rgba(0,0,0,0.06)",
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 8,
+        flex: 1,
         marginRight: 10,
-    },
-    tagText: {
-        fontSize: 12,
-        fontWeight: "700",
-        letterSpacing: 0.5,
+        flexDirection: "row",
+        alignItems: "flex-start",
     },
     taskCircle: {
-        width: 20,
-        height: 20,
-        borderRadius: 10,
-        backgroundColor: "tomato",
+        borderRadius: 4,
         marginRight: 12,
+        minHeight: 40,
+        width: 5,
+        height: "100%",
     },
     taskName: {
-        fontSize: 16,
-        fontWeight: "bold",
+        fontSize: 15,
+        marginBottom: 3,
+        fontWeight: "700",
+        color: "#1E3A1A",
     },
     taskDescription: {
-        fontSize: 14,
-        color: "dimgray",
+        fontSize: 13,
+        color: "#6B8F67",
         marginTop: 2,
+        lineHeight: 18,
     },
     dueBadge: {
-        backgroundColor: "#A5D6A7",
-        paddingHorizontal: 12,
-        paddingVertical: 8,
-        borderRadius: 12,
+        flexShrink: 0,
+        backgroundColor: "#F0F8EF",
         alignItems: "center",
+        borderWidth: 1,
+        borderColor: "#C8E0C4",
+        minWidth: 60,
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        borderRadius: 10,
     },
     dueText: {
-        fontSize: 12,
-        fontWeight: "600",
+        fontSize: 11,
+        fontWeight: "700",
+        color: "#3D6B37",
     },
     daysText: {
         fontSize: 10,
-        color: "dimgray",
+        color: "#6B8F67",
+        marginTop: 1,
     },
     addTaskButton: {
         backgroundColor: "#BADBB3",
@@ -184,6 +188,8 @@ export const styles = StyleSheet.create({
     addTaskText: {
         fontSize: 16,
     },
+
+    /*friend*/
     friendButton: {
         backgroundColor: "#94C88A",
         marginHorizontal: 20,
@@ -196,6 +202,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
     },
+
     /* Sidebar styles */
     overlay: {
         position: "absolute",
@@ -510,5 +517,9 @@ export const styles = StyleSheet.create({
 
 // helper for dynamic task card background color
 export function taskCardBackground(color) {
-    return { backgroundColor: color || "#FFF" };
+    return {
+        backgroundColor: "#fff",
+        borderLeftWidth: 5,
+        borderLeftColor: color || "#94C88A",
+    };
 }
