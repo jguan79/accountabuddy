@@ -181,6 +181,29 @@ export default function Homepage({ route, navigation }: Props) {
         return Math.ceil(millisecondsDifference / millisecondsPerDay);
     }
 
+    function formatDueInDays(days?: number) {
+        if (typeof days !== "number") return { text: "-", status: "normal" };
+
+        if (days < 0) {
+            return {
+                text: `Overdue ${Math.abs(days)} days`,
+                status: "overdue",
+            };
+        }
+
+        if (days <= 2) {
+            return {
+                text: `Due in ${days} days`,
+                status: "soon",
+            };
+        }
+
+        return {
+            text: `Due in ${days} days`,
+            status: "normal",
+        };
+    }
+
     async function handleUpdateTask() {
         Keyboard.dismiss();
         if (!editingTask) return;
@@ -366,55 +389,85 @@ export default function Homepage({ route, navigation }: Props) {
                 {/* Tasks Section */}
                 <Text style={styles.sectionTitle}>Tasks</Text>
 
-                {displayTasks.map((task: any) => (
-                    <TouchableOpacity
-                        key={task.id}
-                        onPress={() => {
-                            setEditingTask(task);
-                            setEditTitle(task.name || "");
-                            setEditDescription(task.description || "");
-                            setEditDueInDays(
-                                typeof task.dueInDays === "number"
-                                    ? String(task.dueInDays)
-                                    : "",
-                            );
-                            setEditColor(task.color || "#FFD27F");
-                            setEditStatus(task.status || "in_progress");
-                            setEditModalOpen(true);
-                        }}
-                    >
-                        <View
-                            style={[
-                                styles.taskCard,
-                                taskCardBackground(task.color),
-                            ]}
-                        >
-                            <View style={styles.taskLeft}>
-                                <View style={styles.taskCircle} />
-                                <View style={{ flex: 1 }}>
-                                    <Text style={styles.taskName}>
-                                        {task.name}
-                                    </Text>
+                {displayTasks.map((task: any) => {
+                    const dueInfo = formatDueInDays(task.dueInDays);
 
-                                    {task.description && (
-                                        <Text style={styles.taskDescription}>
-                                            {task.description}
+                    return (
+                        <TouchableOpacity
+                            key={task.id}
+                            onPress={() => {
+                                setEditingTask(task);
+                                setEditTitle(task.name || "");
+                                setEditDescription(task.description || "");
+                                setEditDueInDays(
+                                    typeof task.dueInDays === "number"
+                                        ? String(task.dueInDays)
+                                        : "",
+                                );
+                                setEditColor(task.color || "#FFD27F");
+                                setEditStatus(task.status || "in_progress");
+                                setEditModalOpen(true);
+                            }}
+                        >
+                            <View
+                                style={[
+                                    styles.taskCard,
+                                    taskCardBackground(task.color),
+                                ]}
+                            >
+                                <View style={styles.taskLeft}>
+                                    <View style={styles.taskCircle} />
+
+                                    <View style={{ flex: 1 }}>
+                                        <Text style={styles.taskName}>
+                                            {task.name}
                                         </Text>
-                                    )}
+
+                                        {task.description && (
+                                            <Text
+                                                style={styles.taskDescription}
+                                            >
+                                                {task.description}
+                                            </Text>
+                                        )}
+                                    </View>
+                                </View>
+
+                                <View
+                                    style={[
+                                        styles.dueBadge,
+
+                                        dueInfo.status === "overdue" && {
+                                            backgroundColor: "#FFE5E5",
+                                            borderColor: "#FFB3B3",
+                                        },
+
+                                        dueInfo.status === "soon" && {
+                                            backgroundColor: "#FFF6D6",
+                                            borderColor: "#FFE08A",
+                                        },
+                                    ]}
+                                >
+                                    <Text
+                                        style={[
+                                            styles.dueText,
+
+                                            dueInfo.status === "overdue" && {
+                                                color: "#D32F2F",
+                                            },
+
+                                            dueInfo.status === "soon" && {
+                                                color: "#B26A00",
+                                            },
+                                        ]}
+                                    >
+                                        {dueInfo.text}
+                                    </Text>
                                 </View>
                             </View>
-                            <View style={styles.dueBadge}>
-                                <Text style={styles.dueText}>
-                                    Due in{" "}
-                                    {typeof task.dueInDays === "number"
-                                        ? task.dueInDays
-                                        : "-"}{" "}
-                                </Text>
-                                <Text style={styles.daysText}>days</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                ))}
+                        </TouchableOpacity>
+                    );
+                })}
 
                 {/* Add Task Button */}
                 <TouchableOpacity
