@@ -115,12 +115,31 @@ export const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
     },
-    sectionTitle: {
-        fontSize: 20,
-        fontWeight: "bold",
+    tasksSectionHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
         paddingHorizontal: 20,
         marginTop: 10,
-        marginBottom: 15,
+        marginBottom: 12,
+    },
+
+    tasksSectionTitle: {
+        fontSize: 22,
+        fontWeight: "bold",
+        letterSpacing: 0.3,
+    },
+
+    tasksSectionCount: {
+        fontSize: 12,
+        color: "rgba(255,255,255,0.85)",
+        backgroundColor: "#66BB6A",
+        borderColor: "rgba(255,255,255,0.85)",
+        borderWidth: 1,
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 12,
+        overflow: "hidden",
     },
 
     /* Task stuff, comment later */
@@ -157,7 +176,7 @@ export const styles = StyleSheet.create({
     },
     taskDescription: {
         fontSize: 13,
-        color: "#6B8F67",
+        color: "dimgray",
         marginTop: 2,
         lineHeight: 18,
         flexShrink: 1,

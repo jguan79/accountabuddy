@@ -391,7 +391,12 @@ export default function Homepage({ route, navigation }: Props) {
                 </View>
 
                 {/* Tasks Section */}
-                <Text style={styles.sectionTitle}>Tasks</Text>
+                <View style={styles.tasksSectionHeader}>
+                    <Text style={styles.tasksSectionTitle}>Tasks</Text>
+                    <Text style={styles.tasksSectionCount}>
+                        {displayTasks.length} active
+                    </Text>
+                </View>
 
                 {displayTasks.map((task: any) => {
                     const dueInfo = formatDueInDays(task.dueInDays);
