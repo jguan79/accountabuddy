@@ -391,10 +391,11 @@ export default function Homepage({ route, navigation }: Props) {
                         >
                             <View style={styles.taskLeft}>
                                 <View style={styles.taskCircle} />
-                                <View>
+                                <View style={{ flex: 1 }}>
                                     <Text style={styles.taskName}>
                                         {task.name}
                                     </Text>
+
                                     {task.description && (
                                         <Text style={styles.taskDescription}>
                                             {task.description}

@@ -149,12 +149,14 @@ export const styles = StyleSheet.create({
         marginBottom: 3,
         fontWeight: "700",
         color: "#1E3A1A",
+        flexShrink: 1,
     },
     taskDescription: {
         fontSize: 13,
         color: "#6B8F67",
         marginTop: 2,
         lineHeight: 18,
+        flexShrink: 1,
     },
     dueBadge: {
         flexShrink: 0,
