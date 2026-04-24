@@ -347,7 +347,11 @@ export default function Homepage({ route, navigation }: Props) {
                 {/* Greeting */}
                 <View style={styles.greetingSection}>
                     <Text style={styles.greetingText}>
-                        Welcome {currentUser.firstName || currentUser.username},
+                        Welcome{" "}
+                        <Text style={styles.firstNameText}>
+                            {currentUser.firstName || currentUser.username}
+                        </Text>
+                        <Text style={styles.firstNameText}>,</Text>
                     </Text>
                     <Text style={styles.subGreeting}>
                         What are we accomplishing today?

@@ -67,6 +67,10 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
     },
+    firstNameText: {
+        fontWeight: "800",
+        color: "#66BB6A",
+    },
     subGreeting: {
         fontSize: 14,
         color: "dimgray",
