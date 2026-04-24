@@ -319,9 +319,16 @@ export default function Homepage({ route, navigation }: Props) {
                     </TouchableOpacity>
 
                     <View style={styles.statBadge}>
-                        <Text style={styles.statLabel}>Active Tasks:</Text>
-                        <Text style={styles.statNumber}>
-                            {displayTasks.length}
+                        <Text style={styles.statLabel}>Next Up:</Text>
+
+                        <Text
+                            style={styles.statNumber}
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                        >
+                            {displayTasks.length > 0
+                                ? displayTasks[0].name
+                                : "No tasks"}
                         </Text>
                     </View>
 

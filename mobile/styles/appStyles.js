@@ -32,6 +32,7 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         gap: 6,
         backgroundColor: "#F6F8F6",
+        maxWidth: "65%",
     },
     statLabel: {
         fontSize: 12,
@@ -43,6 +44,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         color: "#2E7D32",
         fontWeight: "600",
+        flexShrink: 1,
     },
     bellIcon: {
         position: "relative",
