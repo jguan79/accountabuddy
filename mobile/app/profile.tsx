@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     Image,
     Animated,
+    ScrollView,
 } from "react-native";
 import { styles } from "../styles/appStyles";
 import { useState, useRef } from "react";
@@ -46,61 +47,88 @@ export default function Profile({ route, navigation }: Props) {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.topBar}>
-                <TouchableOpacity style={styles.menuIcon} onPress={openSidebar}>
-                    <View style={styles.menuLine} />
-                    <View style={styles.menuLine} />
-                    <View style={styles.menuLine} />
-                </TouchableOpacity>
-                <Text style={styles.title}>Profile</Text>
-            </View>
+        <View style={styles.pageRoot}>
+            <ScrollView style={styles.container}>
+                {/* Top Bar */}
+                <View style={styles.topBar}>
+                    <TouchableOpacity
+                        style={styles.menuIcon}
+                        onPress={openSidebar}
+                    >
+                        <View style={styles.menuLine} />
+                        <View style={styles.menuLine} />
+                        <View style={styles.menuLine} />
+                    </TouchableOpacity>
 
-            <View style={styles.imageContainer}>
-                {profileImage ? (
-                    <Image
-                        source={{ uri: profileImage }}
-                        style={styles.profileImage}
-                    />
-                ) : (
-                    <View style={styles.placeholderImage}>
-                        <Text style={styles.placeholderText}>📷</Text>
+                    <Text style={styles.tasksSectionTitle}>Profile</Text>
+
+                    <View style={{ width: 30 }} />
+                </View>
+
+                {/* Greeting Section (reusing homepage feel) */}
+                <View style={styles.greetingSection}>
+                    <Text style={styles.greetingText}>
+                        Hey{" "}
+                        <Text style={styles.firstNameText}>
+                            {currentUser.firstName || currentUser.username}
+                        </Text>
+                        ,
+                    </Text>
+                    <Text style={styles.subGreeting}>
+                        Manage your profile details
+                    </Text>
+                </View>
+
+                {/* Profile Card */}
+                <View style={styles.profileContainer}>
+                    {/* Avatar */}
+                    <View style={styles.imageContainer}>
+                        {profileImage ? (
+                            <Image
+                                source={{ uri: profileImage }}
+                                style={styles.profileImage}
+                            />
+                        ) : (
+                            <View style={styles.placeholderImage}>
+                                <Text style={styles.placeholderText}>📷</Text>
+                            </View>
+                        )}
                     </View>
-                )}
-            </View>
 
-            <TouchableOpacity style={styles.uploadButton}>
-                <Text style={styles.uploadText}>Upload</Text>
-            </TouchableOpacity>
+                    <TouchableOpacity style={styles.uploadButton}>
+                        <Text style={styles.uploadText}>Upload</Text>
+                    </TouchableOpacity>
 
-            <Text style={styles.label}>Username</Text>
-            <TextInput
-                style={styles.input}
-                value={username}
-                onChangeText={setUsername}
-            />
+                    {/* Inputs */}
+                    <Text style={styles.label}>Username</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={username}
+                        onChangeText={setUsername}
+                    />
 
-            <Text style={styles.label}>First Name</Text>
-            <TextInput
-                style={styles.input}
-                value={firstName}
-                onChangeText={setFirstName}
-            />
+                    <Text style={styles.label}>First Name</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={firstName}
+                        onChangeText={setFirstName}
+                    />
 
-            <Text style={styles.label}>Last Name</Text>
-            <TextInput
-                style={styles.input}
-                value={lastName}
-                onChangeText={setLastName}
-            />
+                    <Text style={styles.label}>Last Name</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={lastName}
+                        onChangeText={setLastName}
+                    />
 
-            <TouchableOpacity style={styles.updateButton}>
-                <Text style={styles.buttonText}>Update</Text>
-            </TouchableOpacity>
+                    {/* Buttons */}
+                    <TouchableOpacity style={styles.updateButton}>
+                        <Text style={styles.buttonText}>Update</Text>
+                    </TouchableOpacity>
+                </View>
 
-            <TouchableOpacity style={styles.signOutButton}>
-                <Text style={styles.buttonText}>Sign Out</Text>
-            </TouchableOpacity>
+                <View style={styles.spacer40} />
+            </ScrollView>
 
             {sidebarOpen ? (
                 <TouchableOpacity

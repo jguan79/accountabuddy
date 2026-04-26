@@ -230,7 +230,87 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
     },
 
-    /* Sidebar styles */
+    /* ------------- PROFILE STYLES -------------*/
+    profileContainer: {
+        marginHorizontal: 20,
+        padding: 18,
+        backgroundColor: "#F6FBF6",
+        borderWidth: 1,
+        borderColor: "#E6F1E6",
+        borderRadius: 20,
+    },
+
+    imageContainer: {
+        alignItems: "center",
+        marginBottom: 15,
+    },
+
+    profileImage: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+    },
+
+    placeholderImage: {
+        width: 120,
+        height: 120,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#94C88A",
+        borderRadius: 60,
+    },
+
+    placeholderText: {
+        fontSize: 50,
+    },
+
+    uploadButton: {
+        alignSelf: "center",
+        marginBottom: 25,
+        paddingVertical: 10,
+        paddingHorizontal: 30,
+        backgroundColor: "#66BB6A",
+        borderRadius: 20,
+    },
+
+    uploadText: {
+        color: "white",
+        fontWeight: "600",
+    },
+
+    label: {
+        alignSelf: "flex-start",
+        fontSize: 14,
+        marginBottom: 6,
+        marginTop: 14,
+        fontWeight: "600",
+    },
+
+    input: {
+        width: "100%",
+        marginBottom: 8,
+        padding: 14,
+        backgroundColor: "#EAF6EA",
+        borderRadius: 25,
+        fontSize: 15,
+    },
+
+    updateButton: {
+        width: "100%",
+        marginTop: 18,
+        alignItems: "center",
+        padding: 14,
+        borderRadius: 25,
+        backgroundColor: "#66BB6A",
+    },
+
+    buttonText: {
+        color: "white",
+        fontWeight: "600",
+        fontSize: 15,
+    },
+
+    /* ------------- SIDEBAR STYLES -------------*/
     overlay: {
         position: "absolute",
         top: 0,
@@ -318,6 +398,7 @@ export const styles = StyleSheet.create({
         color: "#B00020",
         fontWeight: "700",
     },
+
     /* Modal styles */
     modalOverlay: {
         flex: 1,
