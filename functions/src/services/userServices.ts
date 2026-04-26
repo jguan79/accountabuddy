@@ -23,6 +23,29 @@ export async function createUserInDb(
 }
 
 /**
+ * Update a user in using provided updates.
+ *
+ * @param userId - ID of the user to update
+ * @param updates - Partial user fields to update
+ * @returns Updated user object
+ */
+export async function updateUserInDb(
+    userId: string,
+    updates: Partial<User>,
+): Promise<User & { id: string }> {
+    const userRef = clientDb.collection("users").doc(userId);
+
+    await userRef.update(updates);
+
+    const updatedUser = await userRef.get();
+
+    return {
+        id: updatedUser.id,
+        ...(updatedUser.data() as User),
+    };
+}
+
+/**
  * Finds a user by username and password.
  *
  * @param {string} username - Username to search for

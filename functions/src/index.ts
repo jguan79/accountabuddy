@@ -8,6 +8,7 @@ import { updateTask } from "./cloudfunctions/updateTask";
 import { queryUsers } from "./cloudfunctions/queryUsers";
 import { getFriends } from "./cloudfunctions/getFriends";
 import { addFriend } from "./cloudfunctions/addFriend";
+import { updateUser } from "./cloudfunctions/updateUser";
 
 setGlobalOptions({ maxInstances: 10 });
 
@@ -21,4 +22,5 @@ export {
     queryUsers,
     getFriends,
     addFriend,
+    updateUser,
 };

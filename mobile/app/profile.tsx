@@ -8,9 +8,10 @@ import {
     ScrollView,
 } from "react-native";
 import { styles } from "../styles/appStyles";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
+import { updateUser } from "@/api/userApi";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Profile">;
 
@@ -44,6 +45,31 @@ export default function Profile({ route, navigation }: Props) {
         }).start(() => {
             setSidebarOpen(false);
         });
+    }
+
+    // ------------------------- DEFAULT INPUT ------------------------- //
+    useEffect(() => {
+        if (!currentUser) return;
+
+        setUsername(currentUser.username || "");
+        setFirstName(currentUser.firstName || "");
+        setLastName(currentUser.lastName || "");
+    }, [currentUser]);
+
+    // ------------------------- UPDATE PROFILE HANDLER ------------------------- //
+    async function handleUpdateProfile() {
+        try {
+            const updatedUser = await updateUser(currentUser.id, {
+                username,
+                firstName,
+                lastName,
+            });
+            navigation.setParams({ user: updatedUser });
+            alert("Profile updated successfully!");
+        } catch (err) {
+            console.error("Update failed:", err);
+            alert("Failed to update profile.");
+        }
     }
 
     return (
@@ -122,7 +148,10 @@ export default function Profile({ route, navigation }: Props) {
                     />
 
                     {/* Buttons */}
-                    <TouchableOpacity style={styles.updateButton}>
+                    <TouchableOpacity
+                        style={styles.updateButton}
+                        onPress={handleUpdateProfile}
+                    >
                         <Text style={styles.buttonText}>Update</Text>
                     </TouchableOpacity>
                 </View>

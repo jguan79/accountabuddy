@@ -144,7 +144,7 @@ export const styles = StyleSheet.create({
         overflow: "hidden",
     },
 
-    /* Task stuff, comment later */
+    /* ------------- TASK STYLES -------------*/
     taskCard: {
         flexDirection: "row",
         justifyContent: "space-between",

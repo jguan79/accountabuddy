@@ -32,3 +32,19 @@ export async function queryUsers(usernamePart: string, currentUserId?: string) {
     const response = await queryUsersCallable({ usernamePart, currentUserId });
     return response.data as any;
 }
+
+export async function updateUser(
+    userId: string,
+    updates: {
+        username?: string;
+        firstName?: string;
+        lastName?: string;
+    },
+) {
+    const updateUserCallable = httpsCallable(functions, "updateUser");
+    const response = await updateUserCallable({
+        userId,
+        updates,
+    });
+    return response.data as User;
+}
