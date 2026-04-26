@@ -1,6 +1,13 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
-import { styles } from "../styles/profileStyles";
-import { useState } from "react";
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    Image,
+    Animated,
+} from "react-native";
+import { styles } from "../styles/appStyles";
+import { useState, useRef } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
 
@@ -12,26 +19,43 @@ export default function Profile({ route, navigation }: Props) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [profileImage, setProfileImage] = useState(null);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const sidebarAnim = useRef(new Animated.Value(-260)).current;
+    const sidebarWidth = 260;
+
+    // ------------------------- SIDEBAR HANDLERS ------------------------- //
+
+    function openSidebar() {
+        setSidebarOpen(true);
+
+        Animated.timing(sidebarAnim, {
+            toValue: 0,
+            duration: 220,
+            useNativeDriver: true,
+        }).start();
+    }
+
+    function closeSidebar() {
+        Animated.timing(sidebarAnim, {
+            toValue: -sidebarWidth,
+            duration: 180,
+            useNativeDriver: true,
+        }).start(() => {
+            setSidebarOpen(false);
+        });
+    }
 
     return (
         <View style={styles.container}>
             <View style={styles.topBar}>
-                <TouchableOpacity
-                    style={styles.menuIcon}
-                    onPress={() =>
-                        navigation.navigate("Homepage", {
-                            user: currentUser,
-                            openSidebar: true,
-                        })
-                    }
-                >
+                <TouchableOpacity style={styles.menuIcon} onPress={openSidebar}>
                     <View style={styles.menuLine} />
                     <View style={styles.menuLine} />
                     <View style={styles.menuLine} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Profile</Text>
             </View>
-                
+
             <View style={styles.imageContainer}>
                 {profileImage ? (
                     <Image
@@ -77,6 +101,104 @@ export default function Profile({ route, navigation }: Props) {
             <TouchableOpacity style={styles.signOutButton}>
                 <Text style={styles.buttonText}>Sign Out</Text>
             </TouchableOpacity>
+
+            {sidebarOpen ? (
+                <TouchableOpacity
+                    activeOpacity={1}
+                    style={styles.overlay}
+                    onPress={closeSidebar}
+                >
+                    <Animated.View
+                        style={[
+                            styles.sidebarContainer,
+                            { transform: [{ translateX: sidebarAnim }] },
+                        ]}
+                    >
+                        <View style={styles.sidebarHeader}>
+                            <View style={styles.sidebarAvatar} />
+                            <View style={styles.sidebarHeaderText}>
+                                <Text style={styles.sidebarUsername}>
+                                    {currentUser.firstName ||
+                                        currentUser.username}
+                                </Text>
+                                <Text style={styles.sidebarSubtitle}>
+                                    @{currentUser.username}
+                                </Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.sidebarMenu}>
+                            <TouchableOpacity
+                                style={styles.sidebarItem}
+                                onPress={() => {
+                                    closeSidebar();
+                                    navigation.navigate("Homepage", {
+                                        user: currentUser,
+                                    });
+                                }}
+                            >
+                                <Text style={styles.sidebarItemText}>Home</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.sidebarItem}
+                                onPress={() => {
+                                    closeSidebar();
+                                    navigation.navigate("FriendsList", {
+                                        user: currentUser,
+                                    });
+                                }}
+                            >
+                                <Text style={styles.sidebarItemText}>
+                                    Friends
+                                </Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.sidebarItem}
+                                onPress={() => {
+                                    closeSidebar();
+                                    navigation.navigate("AddFriend", {
+                                        user: currentUser,
+                                    });
+                                }}
+                            >
+                                <Text style={styles.sidebarItemText}>
+                                    Add Friend
+                                </Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.sidebarItem}
+                                onPress={() => {
+                                    closeSidebar();
+                                    navigation.navigate("Profile", {
+                                        user: currentUser,
+                                    });
+                                }}
+                            >
+                                <Text style={styles.sidebarItemText}>
+                                    Profile
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={styles.sidebarFooter}>
+                            <TouchableOpacity
+                                style={styles.sidebarLogoutButton}
+                                onPress={() => {
+                                    closeSidebar();
+                                    navigation.replace("Index");
+                                }}
+                            >
+                                <Text style={styles.sidebarLogoutText}>
+                                    Logout
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Animated.View>
+                </TouchableOpacity>
+            ) : null}
         </View>
     );
 }

@@ -526,7 +526,9 @@ export default function Homepage({ route, navigation }: Props) {
                                 style={styles.sidebarItem}
                                 onPress={() => {
                                     closeSidebar();
-                                    navigation.navigate("Index");
+                                    navigation.navigate("Homepage", {
+                                        user: currentUser,
+                                    });
                                 }}
                             >
                                 <Text style={styles.sidebarItemText}>Home</Text>
@@ -700,7 +702,6 @@ export default function Homepage({ route, navigation }: Props) {
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>
-            {/* Edit Task Modal */}
             {/* Edit Task Modal */}
             <Modal visible={editModalOpen} animationType="slide" transparent>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
