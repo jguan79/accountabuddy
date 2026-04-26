@@ -601,27 +601,27 @@ export default function Homepage({ route, navigation }: Props) {
             {/* Add Task Modal */}
             <Modal visible={addModalOpen} animationType="slide" transparent>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.modalOverlay}>
+                    <View style={styles.backdrop}>
                         <TouchableWithoutFeedback onPress={() => {}}>
-                            <View style={styles.modalContainer}>
-                                <Text style={styles.modalHeader}>Add Task</Text>
-                                <Text style={styles.fieldLabel}>
+                            <View style={styles.panel}>
+                                <Text style={styles.heading}>Add Task</Text>
+                                <Text style={styles.inputLabel}>
                                     Subject Title
                                 </Text>
                                 <TextInput
-                                    style={styles.pillInput}
+                                    style={styles.textInput}
                                     placeholder="e.g. Math, Compilers"
                                     placeholderTextColor="rgba(0,0,0,0.4)"
                                     value={newTitle}
                                     onChangeText={setNewTitle}
                                 />
 
-                                <Text style={styles.fieldLabel}>
+                                <Text style={styles.inputLabel}>
                                     Description (optional)
                                 </Text>
                                 <TextInput
                                     style={[
-                                        styles.pillInput,
+                                        styles.textInput,
                                         styles.largeInput,
                                     ]}
                                     placeholder="Add notes or steps..."
@@ -631,11 +631,11 @@ export default function Homepage({ route, navigation }: Props) {
                                     multiline
                                 />
 
-                                <Text style={styles.fieldLabel}>
+                                <Text style={styles.inputLabel}>
                                     Due in (days)
                                 </Text>
                                 <TextInput
-                                    style={styles.pillInput}
+                                    style={styles.textInput}
                                     placeholder="e.g. 3"
                                     placeholderTextColor="rgba(0,0,0,0.4)"
                                     value={newDueInDays}
@@ -643,7 +643,7 @@ export default function Homepage({ route, navigation }: Props) {
                                     keyboardType="numeric"
                                 />
 
-                                <Text style={styles.fieldLabel}>Color</Text>
+                                <Text style={styles.inputLabel}>Color</Text>
                                 <View style={styles.colorRow}>
                                     {[
                                         "#ffffff",
@@ -668,7 +668,7 @@ export default function Homepage({ route, navigation }: Props) {
                                     ))}
                                 </View>
 
-                                <View style={styles.modalButtons}>
+                                <View style={styles.actionsRow}>
                                     <TouchableOpacity
                                         style={[
                                             styles.modalButton,
@@ -710,29 +710,27 @@ export default function Homepage({ route, navigation }: Props) {
             {/* Edit Task Modal */}
             <Modal visible={editModalOpen} animationType="slide" transparent>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.modalOverlay}>
+                    <View style={styles.backdrop}>
                         <TouchableWithoutFeedback onPress={() => {}}>
-                            <View style={styles.modalContainer}>
-                                <Text style={styles.modalHeader}>
-                                    Edit Task
-                                </Text>
+                            <View style={styles.panel}>
+                                <Text style={styles.heading}>Edit Task</Text>
 
-                                <Text style={styles.fieldLabel}>
+                                <Text style={styles.inputLabel}>
                                     Subject Title
                                 </Text>
                                 <TextInput
-                                    style={styles.pillInput}
+                                    style={styles.textInput}
                                     placeholder="Subject title"
                                     value={editTitle}
                                     onChangeText={setEditTitle}
                                 />
 
-                                <Text style={styles.fieldLabel}>
+                                <Text style={styles.inputLabel}>
                                     Description
                                 </Text>
                                 <TextInput
                                     style={[
-                                        styles.pillInput,
+                                        styles.textInput,
                                         styles.largeInput,
                                     ]}
                                     placeholder="Description"
@@ -741,18 +739,18 @@ export default function Homepage({ route, navigation }: Props) {
                                     multiline
                                 />
 
-                                <Text style={styles.fieldLabel}>
+                                <Text style={styles.inputLabel}>
                                     Due in (days)
                                 </Text>
                                 <TextInput
-                                    style={styles.pillInput}
+                                    style={styles.textInput}
                                     placeholder="example: 3"
                                     value={editDueInDays}
                                     onChangeText={setEditDueInDays}
                                     keyboardType="numeric"
                                 />
 
-                                <Text style={styles.fieldLabel}>Color</Text>
+                                <Text style={styles.inputLabel}>Color</Text>
                                 <View style={styles.colorRow}>
                                     {[
                                         "#FFD27F",
@@ -776,7 +774,7 @@ export default function Homepage({ route, navigation }: Props) {
                                     ))}
                                 </View>
 
-                                <Text style={styles.fieldLabel}>Status</Text>
+                                <Text style={styles.inputLabel}>Status</Text>
                                 <View style={styles.statusRow}>
                                     {[
                                         {
@@ -809,7 +807,7 @@ export default function Homepage({ route, navigation }: Props) {
                                     ))}
                                 </View>
 
-                                <View style={styles.modalButtons}>
+                                <View style={styles.actionsRow}>
                                     <TouchableOpacity
                                         style={[
                                             styles.modalButton,

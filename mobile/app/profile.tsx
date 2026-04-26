@@ -102,7 +102,7 @@ export default function Profile({ route, navigation }: Props) {
                     <View style={{ width: 30 }} />
                 </View>
 
-                {/* Greeting Section (reusing homepage feel) */}
+                {/* Greeting Section (like the homepage, use this as reference for other pages) */}
                 <View style={styles.greetingSection}>
                     <Text style={styles.greetingText}>
                         Hey{" "}

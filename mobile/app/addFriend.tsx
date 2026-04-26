@@ -106,7 +106,7 @@ export default function AddFriend({ route, navigation }: Props) {
     }
 
     return (
-        <View style={styles.modalFullScreen}>
+        <View style={styles.screenContainer}>
             <View style={styles.topBar}>
                 <TouchableOpacity style={styles.menuIcon} onPress={openSidebar}>
                     <View style={styles.menuLine} />
@@ -120,7 +120,7 @@ export default function AddFriend({ route, navigation }: Props) {
             </View>
 
             <View style={styles.addFriendContent}>
-                <Text style={styles.fieldLabel}>
+                <Text style={styles.inputLabel}>
                     Type in the username of the person you are looking for.
                 </Text>
 

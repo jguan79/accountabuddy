@@ -83,7 +83,7 @@ export default function FriendsList({ route, navigation }: Props) {
     }
 
     return (
-        <View style={styles.modalFullScreen}>
+        <View style={styles.screenContainer}>
             <View style={styles.topBar}>
                 <TouchableOpacity style={styles.menuIcon} onPress={openSidebar}>
                     <View style={styles.menuLine} />

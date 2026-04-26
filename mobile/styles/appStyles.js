@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+    /* ------------- HOMEPAGE STYLES -------------*/
+    pageRoot: {
+        flex: 1,
+    },
     container: {
         flex: 1,
         backgroundColor: "#D8EBD4",
@@ -39,7 +43,6 @@ export const styles = StyleSheet.create({
         fontWeight: "500",
         color: "#6B6B6B",
     },
-
     statNumber: {
         fontSize: 14,
         color: "#2E7D32",
@@ -125,13 +128,11 @@ export const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 12,
     },
-
     tasksSectionTitle: {
         fontSize: 22,
         fontWeight: "bold",
         letterSpacing: 0.3,
     },
-
     tasksSectionCount: {
         fontSize: 12,
         color: "rgba(255,255,255,0.85)",
@@ -216,7 +217,110 @@ export const styles = StyleSheet.create({
         fontSize: 16,
     },
 
-    /*friend*/
+    /* ------------- HOMEPAGE TASK FORM -------------*/
+    backdrop: {
+        flex: 1,
+        backgroundColor: "rgba(0,0,0,0.4)",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    panel: {
+        width: "92%",
+        backgroundColor: "#F6FBF6",
+        borderRadius: 18,
+        padding: 18,
+        borderWidth: 1,
+        borderColor: "#E6F1E6",
+    },
+    heading: {
+        fontSize: 18,
+        fontWeight: "700",
+        marginBottom: 12,
+    },
+    actionsRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 12,
+    },
+    inputLabel: {
+        fontSize: 14,
+        marginBottom: 8,
+        marginTop: 6,
+        fontWeight: "600",
+    },
+    textInput: {
+        height: 48,
+        backgroundColor: "#CFEAD0",
+        borderRadius: 30,
+        paddingHorizontal: 16,
+        marginBottom: 8,
+    },
+    largeInput: {
+        height: 110,
+        textAlignVertical: "top",
+        paddingTop: 12,
+    },
+    colorRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 8,
+    },
+    colorDot: {
+        width: 28,
+        height: 28,
+        borderRadius: 14,
+        marginRight: 10,
+        borderWidth: 1,
+        borderColor: "rgba(0,0,0,0.08)",
+    },
+    colorDotSelected: {
+        borderWidth: 2,
+        borderColor: "#333",
+    },
+    statusRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 8,
+    },
+    statusButton: {
+        flex: 1,
+        paddingVertical: 8,
+        marginHorizontal: 6,
+        borderRadius: 18,
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "transparent",
+    },
+    statusButtonSelected: {
+        backgroundColor: "#66BB6A",
+        borderColor: "#5aa85b",
+    },
+    statusText: {
+        fontWeight: "700",
+    },
+
+    /* ------------- HOMEPAGE TASK DELETE -------------*/
+    swipeRightAction: {
+        backgroundColor: "#FF6B6B",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 90,
+        marginRight: 16,
+        borderRadius: 16,
+        paddingVertical: 10,
+        marginBottom: 15,
+    },
+    swipeRightText: {
+        color: "#fff",
+        fontWeight: "700",
+    },
+
+    /* ------------- FRIEND STYLES -------------*/
+    screenContainer: {
+        flex: 1,
+        backgroundColor: "#D8EBD4",
+        paddingTop: 50,
+    },
     friendButton: {
         backgroundColor: "#94C88A",
         marginHorizontal: 20,
@@ -229,6 +333,67 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
     },
+    resultRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: "#F2F7F2",
+    },
+    searchInput: {
+        height: 48,
+        backgroundColor: "#EAF6EA",
+        borderRadius: 12,
+        paddingHorizontal: 12,
+        marginTop: 8,
+        borderWidth: 1,
+        borderColor: "#E0EFE0",
+    },
+    resultName: {
+        fontSize: 15,
+        fontWeight: "700",
+    },
+    resultUsername: {
+        fontSize: 12,
+        color: "dimgray",
+        marginTop: 4,
+    },
+    addFriendButton: {
+        backgroundColor: "#66BB6A",
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 12,
+    },
+    addFriendButtonText: {
+        color: "#fff",
+        fontWeight: "700",
+    },
+    addFriendContent: {
+        paddingHorizontal: 18,
+        paddingTop: 12,
+    },
+    addFriendResults: {
+        paddingHorizontal: 18,
+        paddingTop: 8,
+        paddingBottom: 40,
+    },
+    emptyResultContainer: {
+        padding: 18,
+    },
+    emptyResultText: {
+        color: "dimgray",
+    },
+    searchActionsRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 12,
+    },
+    createTitle: {
+        fontSize: 20,
+        fontWeight: "800",
+        marginBottom: 14,
+    },
 
     /* ------------- PROFILE STYLES -------------*/
     profileContainer: {
@@ -239,18 +404,15 @@ export const styles = StyleSheet.create({
         borderColor: "#E6F1E6",
         borderRadius: 20,
     },
-
     imageContainer: {
         alignItems: "center",
         marginBottom: 15,
     },
-
     profileImage: {
         width: 120,
         height: 120,
         borderRadius: 60,
     },
-
     placeholderImage: {
         width: 120,
         height: 120,
@@ -259,11 +421,9 @@ export const styles = StyleSheet.create({
         backgroundColor: "#94C88A",
         borderRadius: 60,
     },
-
     placeholderText: {
         fontSize: 50,
     },
-
     uploadButton: {
         alignSelf: "center",
         marginBottom: 25,
@@ -272,12 +432,10 @@ export const styles = StyleSheet.create({
         backgroundColor: "#66BB6A",
         borderRadius: 20,
     },
-
     uploadText: {
         color: "white",
         fontWeight: "600",
     },
-
     label: {
         alignSelf: "flex-start",
         fontSize: 14,
@@ -285,7 +443,6 @@ export const styles = StyleSheet.create({
         marginTop: 14,
         fontWeight: "600",
     },
-
     input: {
         width: "100%",
         marginBottom: 8,
@@ -294,7 +451,6 @@ export const styles = StyleSheet.create({
         borderRadius: 25,
         fontSize: 15,
     },
-
     updateButton: {
         width: "100%",
         marginTop: 18,
@@ -303,11 +459,17 @@ export const styles = StyleSheet.create({
         borderRadius: 25,
         backgroundColor: "#66BB6A",
     },
-
     buttonText: {
         color: "white",
         fontWeight: "600",
         fontSize: 15,
+    },
+    input: {
+        height: 48,
+        backgroundColor: "#EAF6EA",
+        borderRadius: 30,
+        paddingHorizontal: 16,
+        marginBottom: 10,
     },
 
     /* ------------- SIDEBAR STYLES -------------*/
@@ -397,94 +559,7 @@ export const styles = StyleSheet.create({
         fontWeight: "700",
     },
 
-    /* Modal styles */
-    modalOverlay: {
-        flex: 1,
-        backgroundColor: "rgba(0,0,0,0.4)",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    modalContainer: {
-        width: "92%",
-        backgroundColor: "#F6FBF6",
-        borderRadius: 18,
-        padding: 18,
-        borderWidth: 1,
-        borderColor: "#E6F1E6",
-    },
-    modalHeader: {
-        fontSize: 18,
-        fontWeight: "700",
-        marginBottom: 12,
-    },
-    searchInput: {
-        height: 48,
-        backgroundColor: "#EAF6EA",
-        borderRadius: 12,
-        paddingHorizontal: 12,
-        marginTop: 8,
-        borderWidth: 1,
-        borderColor: "#E0EFE0",
-    },
-    resultRow: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingVertical: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: "#F2F7F2",
-    },
-    resultName: {
-        fontSize: 15,
-        fontWeight: "700",
-    },
-    resultUsername: {
-        fontSize: 12,
-        color: "dimgray",
-        marginTop: 4,
-    },
-    addFriendButton: {
-        backgroundColor: "#66BB6A",
-        paddingVertical: 8,
-        paddingHorizontal: 12,
-        borderRadius: 12,
-    },
-    addFriendButtonText: {
-        color: "#fff",
-        fontWeight: "700",
-    },
-    addFriendContent: {
-        paddingHorizontal: 18,
-        paddingTop: 12,
-    },
-    addFriendResults: {
-        paddingHorizontal: 18,
-        paddingTop: 8,
-        paddingBottom: 40,
-    },
-    emptyResultContainer: {
-        padding: 18,
-    },
-    emptyResultText: {
-        color: "dimgray",
-    },
-    searchActionsRow: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginTop: 12,
-    },
-    input: {
-        height: 48,
-        backgroundColor: "#EAF6EA",
-        borderRadius: 30,
-        paddingHorizontal: 16,
-        marginBottom: 10,
-    },
-    modalButtons: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginTop: 12,
-    },
+    /* ------------- MODAL BUTTONS -------------*/
     modalButton: {
         paddingVertical: 12,
         paddingHorizontal: 22,
@@ -508,114 +583,8 @@ export const styles = StyleSheet.create({
     modalButtonTextOutline: {
         color: "#2f6f3a",
     },
-    /* full-screen modal layout */
-    modalFullScreen: {
-        flex: 1,
-        backgroundColor: "#D8EBD4",
-        paddingTop: 50,
-    },
-    modalHeaderRow: {
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 18,
-        marginBottom: 6,
-    },
-    modalContent: {
-        paddingHorizontal: 18,
-        paddingBottom: 40,
-    },
-    createTitle: {
-        fontSize: 20,
-        fontWeight: "800",
-        marginBottom: 14,
-    },
-    fieldLabel: {
-        fontSize: 14,
-        marginBottom: 8,
-        marginTop: 6,
-        fontWeight: "600",
-    },
-    pillInput: {
-        height: 48,
-        backgroundColor: "#CFEAD0",
-        borderRadius: 30,
-        paddingHorizontal: 16,
-        marginBottom: 8,
-    },
-    largeInput: {
-        height: 110,
-        textAlignVertical: "top",
-        paddingTop: 12,
-    },
-    colorRow: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 8,
-    },
-    colorDot: {
-        width: 28,
-        height: 28,
-        borderRadius: 14,
-        marginRight: 10,
-        borderWidth: 1,
-        borderColor: "rgba(0,0,0,0.08)",
-    },
-    colorDotSelected: {
-        borderWidth: 2,
-        borderColor: "#333",
-    },
-    statusRow: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginVertical: 8,
-    },
-    statusButton: {
-        flex: 1,
-        paddingVertical: 8,
-        marginHorizontal: 6,
-        borderRadius: 18,
-        alignItems: "center",
-        borderWidth: 1,
-        borderColor: "transparent",
-    },
-    statusButtonSelected: {
-        backgroundColor: "#66BB6A",
-        borderColor: "#5aa85b",
-    },
-    statusText: {
-        fontWeight: "700",
-    },
-    swipeRightAction: {
-        backgroundColor: "#FF6B6B",
-        justifyContent: "center",
-        alignItems: "center",
-        width: 90,
-        marginRight: 16,
-        borderRadius: 16,
-        paddingVertical: 10,
-        marginBottom: 15,
-    },
-    swipeRightText: {
-        color: "#fff",
-        fontWeight: "700",
-    },
-    createButton: {
-        marginTop: 12,
-        alignSelf: "center",
-        width: "60%",
-        alignItems: "center",
-        paddingVertical: 10,
-        borderRadius: 24,
-        borderWidth: 2,
-        borderColor: "#94C88A",
-        backgroundColor: "#EAF6EA",
-    },
-    createButtonText: {
-        fontWeight: "700",
-    },
-    pageRoot: {
-        flex: 1,
-    },
+
+    /* ------------- MISC. -------------*/
     spacer40: {
         height: 40,
     },

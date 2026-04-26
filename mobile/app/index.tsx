@@ -12,6 +12,8 @@ import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../App";
+
+// ------------------------- API IMPORTS ------------------------- //
 import { loginUser } from "../api/userApi";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Index">;
