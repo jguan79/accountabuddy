@@ -357,8 +357,6 @@ export const styles = StyleSheet.create({
         width: 56,
         height: 56,
         borderRadius: 28,
-        backgroundColor: "#94C88A",
-        marginRight: 12,
     },
     sidebarHeaderText: {
         flexDirection: "column",

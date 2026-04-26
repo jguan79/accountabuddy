@@ -7,15 +7,21 @@ import {
     Alert,
     ActivityIndicator,
     Animated,
+    Image,
 } from "react-native";
 import { styles } from "../styles/appStyles";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
-import { getFriends } from "@/api/userApi";
-import { Friend } from "@/frontend_models/Friend";
-
 type Props = NativeStackScreenProps<RootStackParamList, "FriendsList">;
 
+// ------------------------- API IMPORTS ------------------------- //
+import { getFriends } from "@/api/userApi";
+
+// ------------------------- MODELS ------------------------- //
+import { Friend } from "@/frontend_models/Friend";
+import { profilePlaceholder } from "../assets/images";
+
+// ------------------------- FRIENDS LIST ------------------------- //
 export default function FriendsList({ route, navigation }: Props) {
     const currentUser = route.params.user;
     const [friends, setFriends] = useState<Friend[]>([]);
@@ -128,7 +134,10 @@ export default function FriendsList({ route, navigation }: Props) {
                         ]}
                     >
                         <View style={styles.sidebarHeader}>
-                            <View style={styles.sidebarAvatar} />
+                            <Image
+                                source={profilePlaceholder}
+                                style={styles.sidebarAvatar}
+                            />
                             <View style={styles.sidebarHeaderText}>
                                 <Text style={styles.sidebarUsername}>
                                     {currentUser.firstName ||

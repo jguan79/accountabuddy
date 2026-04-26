@@ -7,14 +7,21 @@ import {
     FlatList,
     Alert,
     Animated,
+    Image,
 } from "react-native";
 import { styles } from "../styles/appStyles";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
-import { queryUsers, addFriend } from "@/api/userApi";
 
 type Props = NativeStackScreenProps<RootStackParamList, "AddFriend">;
 
+// ------------------------- API IMPORTS ------------------------- //
+import { queryUsers, addFriend } from "@/api/userApi";
+
+// ------------------------- MODELS ------------------------- //
+import { profilePlaceholder } from "../assets/images";
+
+// ------------------------- ADD A FRIEND------------------------- //
 export default function AddFriend({ route, navigation }: Props) {
     const currentUser = route.params.user;
     const [query, setQuery] = useState("");
@@ -180,7 +187,10 @@ export default function AddFriend({ route, navigation }: Props) {
                         ]}
                     >
                         <View style={styles.sidebarHeader}>
-                            <View style={styles.sidebarAvatar} />
+                            <Image
+                                source={profilePlaceholder}
+                                style={styles.sidebarAvatar}
+                            />
                             <View style={styles.sidebarHeaderText}>
                                 <Text style={styles.sidebarUsername}>
                                     {currentUser.firstName ||

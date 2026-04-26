@@ -11,10 +11,15 @@ import { styles } from "../styles/appStyles";
 import { useState, useRef, useEffect } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
-import { updateUser } from "@/api/userApi";
-
 type Props = NativeStackScreenProps<RootStackParamList, "Profile">;
 
+// ------------------------- API IMPORTS ------------------------- //
+import { updateUser } from "@/api/userApi";
+
+// ------------------------- MODELS ------------------------- //
+import { profilePlaceholder } from "../assets/images";
+
+// ------------------------- UPDATE PROFILE ------------------------- //
 export default function Profile({ route, navigation }: Props) {
     const currentUser = route.params.user;
     const [username, setUsername] = useState("");
@@ -72,6 +77,12 @@ export default function Profile({ route, navigation }: Props) {
         }
     }
 
+    function uploadPress() {
+        alert(
+            "Profile pictures can be customized in a future update. For now, your avatar is automatically generated for the purpose of the demo.",
+        );
+    }
+
     return (
         <View style={styles.pageRoot}>
             <ScrollView style={styles.container}>
@@ -121,7 +132,10 @@ export default function Profile({ route, navigation }: Props) {
                         )}
                     </View>
 
-                    <TouchableOpacity style={styles.uploadButton}>
+                    <TouchableOpacity
+                        style={styles.uploadButton}
+                        onPress={uploadPress}
+                    >
                         <Text style={styles.uploadText}>Upload</Text>
                     </TouchableOpacity>
 
@@ -172,7 +186,10 @@ export default function Profile({ route, navigation }: Props) {
                         ]}
                     >
                         <View style={styles.sidebarHeader}>
-                            <View style={styles.sidebarAvatar} />
+                            <Image
+                                source={profilePlaceholder}
+                                style={styles.sidebarAvatar}
+                            />
                             <View style={styles.sidebarHeaderText}>
                                 <Text style={styles.sidebarUsername}>
                                     {currentUser.firstName ||

@@ -9,6 +9,7 @@ import {
     Modal,
     TextInput,
     TouchableWithoutFeedback,
+    Image,
 } from "react-native";
 import { Animated, Dimensions } from "react-native";
 import { styles, taskCardBackground } from "../styles/appStyles";
@@ -35,6 +36,7 @@ import {
 import { Task } from "../frontend_models/Task";
 import { User } from "../frontend_models/User";
 import { Friend } from "../frontend_models/Friend";
+import { profilePlaceholder } from "../assets/images";
 
 // ------------------------- HOMEPAGE ------------------------- //
 export default function Homepage({ route, navigation }: Props) {
@@ -509,7 +511,10 @@ export default function Homepage({ route, navigation }: Props) {
                         ]}
                     >
                         <View style={styles.sidebarHeader}>
-                            <View style={styles.sidebarAvatar} />
+                            <Image
+                                source={profilePlaceholder}
+                                style={styles.sidebarAvatar}
+                            />
                             <View style={styles.sidebarHeaderText}>
                                 <Text style={styles.sidebarUsername}>
                                     {currentUser.firstName ||
