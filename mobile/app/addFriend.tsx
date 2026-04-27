@@ -89,11 +89,21 @@ export default function AddFriend({ route, navigation }: Props) {
     function renderItem({ item }: { item: any }) {
         return (
             <View style={styles.resultRow}>
-                <View>
-                    <Text style={styles.resultName}>
-                        {item.firstName || item.username}
-                    </Text>
-                    <Text style={styles.resultUsername}>@{item.username}</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                        source={profilePlaceholder}
+                        style={styles.friendAvatar}
+                    />
+
+                    <View style={{ marginLeft: 12 }}>
+                        <Text style={styles.resultName}>
+                            {item.firstName} {item.lastName || ""}
+                        </Text>
+
+                        <Text style={styles.resultUsername}>
+                            @{item.username}
+                        </Text>
+                    </View>
                 </View>
                 <TouchableOpacity
                     style={styles.addFriendButton}
