@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "rgba(255,255,255,0.5)",
         backgroundColor: "rgba(255,255,255,0.25)",
+        overflow: "hidden",
     },
 
     logoSmall: {
@@ -43,9 +44,10 @@ export const styles = StyleSheet.create({
         width: 70,
         alignItems: "center",
         borderRadius: 35,
-        borderWidth: 2,
+        borderWidth: 0,
         backgroundColor: "rgba(255,255,255,0.25)",
         borderColor: "rgba(255,255,255,0.5)",
+        overflow: "hidden",
     },
 
     logoText: {

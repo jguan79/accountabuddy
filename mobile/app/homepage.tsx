@@ -11,10 +11,8 @@ import {
     TouchableWithoutFeedback,
     Image,
 } from "react-native";
-import { Animated, Dimensions } from "react-native";
+import { Animated } from "react-native";
 import { styles, taskCardBackground } from "../styles/appStyles";
-import { functions } from "../firebase";
-import { httpsCallable } from "firebase/functions";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
 import { Keyboard } from "react-native";

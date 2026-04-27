@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     Alert,
     ScrollView,
+    Image,
 } from "react-native";
 import { styles } from "../styles/globalStyles";
 import { useState } from "react";
@@ -13,6 +14,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../App";
 import { createUser } from "@/api/userApi";
+import { accountabuddyLogo } from "../assets/images";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, "Signup">;
 
@@ -57,7 +59,14 @@ export default function Signup() {
         <ScrollView style={styles.container}>
             <View style={styles.titleSection}>
                 <View style={styles.logoSmall}>
-                    <Text style={styles.logoTextSmall}>Logo</Text>
+                    <Image
+                        source={accountabuddyLogo}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            resizeMode: "cover",
+                        }}
+                    />
                 </View>
 
                 <Text style={styles.welcomeText}>Welcome to</Text>

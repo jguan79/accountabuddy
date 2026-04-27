@@ -6,12 +6,14 @@ import {
     TouchableOpacity,
     Alert,
     ScrollView,
+    Image,
 } from "react-native";
 import { styles } from "../styles/globalStyles";
 import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../App";
+import { accountabuddyLogo } from "../assets/images";
 
 // ------------------------- API IMPORTS ------------------------- //
 import { loginUser } from "../api/userApi";
@@ -56,7 +58,10 @@ export default function Index() {
         >
             <View style={styles.heroSection}>
                 <View style={styles.logo}>
-                    <Text style={styles.logoText}>Logo</Text>
+                    <Image
+                        source={accountabuddyLogo}
+                        style={{ width: 90, height: 90, resizeMode: "contain" }}
+                    />
                 </View>
                 <Text style={styles.appName}>Accountabuddy</Text>
                 <Text style={styles.welcomeText}>
