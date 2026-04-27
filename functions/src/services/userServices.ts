@@ -108,3 +108,25 @@ export async function queryUsersByUsername(
 
     return matchedUsers;
 }
+
+/**
+ * Gets a user by ID from the database.
+ *
+ * @param userId - ID of the user to fetch
+ * @returns User object with id
+ */
+export async function getUserByIdFromDb(
+    userId: string,
+): Promise<User & { id: string }> {
+    const userRef = clientDb.collection("users").doc(userId);
+    const userDoc = await userRef.get();
+
+    if (!userDoc.exists) {
+        throw new Error("User not found");
+    }
+
+    return {
+        id: userDoc.id,
+        ...(userDoc.data() as User),
+    };
+}

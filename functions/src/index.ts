@@ -9,6 +9,7 @@ import { queryUsers } from "./cloudfunctions/queryUsers";
 import { getFriends } from "./cloudfunctions/getFriends";
 import { addFriend } from "./cloudfunctions/addFriend";
 import { updateUser } from "./cloudfunctions/updateUser";
+import { getUserById } from "./cloudfunctions/getUserbyId";
 
 setGlobalOptions({ maxInstances: 10 });
 
@@ -23,4 +24,5 @@ export {
     getFriends,
     addFriend,
     updateUser,
+    getUserById,
 };

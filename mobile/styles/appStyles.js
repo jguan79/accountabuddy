@@ -162,6 +162,7 @@ export const styles = StyleSheet.create({
         marginRight: 10,
         flexDirection: "row",
         alignItems: "flex-start",
+        alignSelf: "stretch",
     },
     taskCircle: {
         borderRadius: 4,
