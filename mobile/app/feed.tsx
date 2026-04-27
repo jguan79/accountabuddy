@@ -203,7 +203,9 @@ export default function Feed({ route, navigation }: Props) {
                                         />
                                         <View>
                                             <Text style={styles.taskName}>
-                                                {activity.task.title ??
+                                                {activity.task.subjectTitle ||
+                                                    activity.task.title ||
+                                                    activity.task.name ||
                                                     "Untitled"}
                                             </Text>
                                             <Text
