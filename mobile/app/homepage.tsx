@@ -543,6 +543,18 @@ export default function Homepage({ route, navigation }: Props) {
                                 style={styles.sidebarItem}
                                 onPress={() => {
                                     closeSidebar();
+                                    navigation.navigate("Feed", {
+                                        user: currentUser,
+                                    });
+                                }}
+                            >
+                                <Text style={styles.sidebarItemText}>Feed</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.sidebarItem}
+                                onPress={() => {
+                                    closeSidebar();
                                     navigation.navigate("FriendsList", {
                                         user: currentUser,
                                     });

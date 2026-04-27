@@ -1,37 +1,23 @@
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    Image,
-    Animated,
-    ScrollView,
-} from "react-native";
+import React, { useRef, useState } from "react";
+import { View, Text, TouchableOpacity, Animated, Image } from "react-native";
 import { styles } from "../styles/appStyles";
-import { useState, useRef, useEffect } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
-type Props = NativeStackScreenProps<RootStackParamList, "Profile">;
 
-// ------------------------- API IMPORTS ------------------------- //
-import { updateUser } from "@/api/userApi";
+type Props = NativeStackScreenProps<RootStackParamList, "Feed">;
 
-// ------------------------- MODELS ------------------------- //
+// ------------------------- ASSETS ------------------------- //
 import { profilePlaceholder } from "../assets/images";
 
-// ------------------------- UPDATE PROFILE ------------------------- //
-export default function Profile({ route, navigation }: Props) {
+// ------------------------- FEED PAGE ------------------------- //
+export default function Feed({ route, navigation }: Props) {
     const currentUser = route.params.user;
-    const [username, setUsername] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [profileImage, setProfileImage] = useState(null);
+
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const sidebarAnim = useRef(new Animated.Value(-260)).current;
     const sidebarWidth = 260;
 
     // ------------------------- SIDEBAR HANDLERS ------------------------- //
-
     function openSidebar() {
         setSidebarOpen(true);
 
@@ -52,125 +38,23 @@ export default function Profile({ route, navigation }: Props) {
         });
     }
 
-    // ------------------------- DEFAULT INPUT ------------------------- //
-    useEffect(() => {
-        if (!currentUser) return;
-
-        setUsername(currentUser.username || "");
-        setFirstName(currentUser.firstName || "");
-        setLastName(currentUser.lastName || "");
-    }, [currentUser]);
-
-    // ------------------------- UPDATE PROFILE HANDLER ------------------------- //
-    async function handleUpdateProfile() {
-        try {
-            const updatedUser = await updateUser(currentUser.id, {
-                username,
-                firstName,
-                lastName,
-            });
-            navigation.setParams({ user: updatedUser });
-            alert("Profile updated successfully!");
-        } catch (err) {
-            console.error("Update failed:", err);
-            alert("Failed to update profile.");
-        }
-    }
-
-    function uploadPress() {
-        alert(
-            "Profile pictures can be customized in a future update. For now, your avatar is automatically generated for the purpose of the demo.",
-        );
-    }
-
     return (
-        <View style={styles.pageRoot}>
-            <ScrollView style={styles.container}>
-                {/* Top Bar */}
-                <View style={styles.topBar}>
-                    <TouchableOpacity
-                        style={styles.menuIcon}
-                        onPress={openSidebar}
-                    >
-                        <View style={styles.menuLine} />
-                        <View style={styles.menuLine} />
-                        <View style={styles.menuLine} />
-                    </TouchableOpacity>
+        <View style={styles.screenContainer}>
+            <View style={styles.topBar}>
+                <TouchableOpacity style={styles.menuIcon} onPress={openSidebar}>
+                    <View style={styles.menuLine} />
+                    <View style={styles.menuLine} />
+                    <View style={styles.menuLine} />
+                </TouchableOpacity>
 
-                    <Text style={styles.tasksSectionTitle}>Profile</Text>
+                <Text style={styles.createTitle}>Feed</Text>
+                <View style={{ width: 30 }} />
+            </View>
 
-                    <View style={{ width: 30 }} />
-                </View>
-
-                <View style={styles.greetingSection}>
-                    <Text style={styles.greetingText}>
-                        Hey{" "}
-                        <Text style={styles.firstNameText}>
-                            {currentUser.firstName || currentUser.username}
-                        </Text>
-                        ,
-                    </Text>
-                    <Text style={styles.subGreeting}>
-                        Manage your profile details
-                    </Text>
-                </View>
-
-                {/* Profile Card */}
-                <View style={styles.profileContainer}>
-                    {/* Avatar */}
-                    <View style={styles.imageContainer}>
-                        {profileImage ? (
-                            <Image
-                                source={{ uri: profileImage }}
-                                style={styles.profileImage}
-                            />
-                        ) : (
-                            <View style={styles.placeholderImage}>
-                                <Text style={styles.placeholderText}></Text>
-                            </View>
-                        )}
-                    </View>
-
-                    <TouchableOpacity
-                        style={styles.uploadButton}
-                        onPress={uploadPress}
-                    >
-                        <Text style={styles.uploadText}>Upload</Text>
-                    </TouchableOpacity>
-
-                    {/* Inputs */}
-                    <Text style={styles.label}>Username</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={username}
-                        onChangeText={setUsername}
-                    />
-
-                    <Text style={styles.label}>First Name</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={firstName}
-                        onChangeText={setFirstName}
-                    />
-
-                    <Text style={styles.label}>Last Name</Text>
-                    <TextInput
-                        style={styles.input}
-                        value={lastName}
-                        onChangeText={setLastName}
-                    />
-
-                    {/* Buttons */}
-                    <TouchableOpacity
-                        style={styles.updateButton}
-                        onPress={handleUpdateProfile}
-                    >
-                        <Text style={styles.buttonText}>Update</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.spacer40} />
-            </ScrollView>
+            <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
+                <Text style={styles.greetingText}>Hello blah blah</Text>
+                <Text style={styles.subGreeting}>COMING SOON</Text>
+            </View>
 
             {sidebarOpen ? (
                 <TouchableOpacity
