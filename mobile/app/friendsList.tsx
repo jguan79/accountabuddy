@@ -70,14 +70,16 @@ export default function FriendsList({ route, navigation }: Props) {
 
     function renderItem({ item }: { item: Friend }) {
         return (
-            <View style={styles.resultRow}>
-                <View>
-                    <Text style={styles.resultName}>{item.username}</Text>
+            <View style={styles.friendCard}>
+                <Image
+                    source={profilePlaceholder}
+                    style={styles.friendAvatar}
+                />
+                <View style={styles.friendInfo}>
+                    <Text style={styles.friendUsernameText}>
+                        @{item.username}
+                    </Text>
                 </View>
-                {/* Optional: Add a button to remove friend later */}
-                {/* <TouchableOpacity style={styles.removeFriendButton}>
-                    <Text style={styles.removeFriendButtonText}>Remove</Text>
-                </TouchableOpacity> */}
             </View>
         );
     }
@@ -94,7 +96,12 @@ export default function FriendsList({ route, navigation }: Props) {
                 <Text style={styles.createTitle}>My Friends</Text>
                 <View style={{ width: 30 }} />
             </View>
-
+            <View style={styles.greetingSection}>
+                <Text style={styles.greetingText}>Your Friends</Text>
+                <Text style={styles.subGreeting}>
+                    People you're connected with
+                </Text>
+            </View>
             {loading ? (
                 <View
                     style={{

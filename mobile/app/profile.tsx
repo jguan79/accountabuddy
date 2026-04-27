@@ -127,7 +127,7 @@ export default function Profile({ route, navigation }: Props) {
                             />
                         ) : (
                             <View style={styles.placeholderImage}>
-                                <Text style={styles.placeholderText}>📷</Text>
+                                <Text style={styles.placeholderText}></Text>
                             </View>
                         )}
                     </View>

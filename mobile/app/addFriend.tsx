@@ -114,7 +114,7 @@ export default function AddFriend({ route, navigation }: Props) {
                     <View style={styles.menuLine} />
                 </TouchableOpacity>
 
-                <Text style={styles.createTitle}>Find a friend</Text>
+                <Text style={styles.createTitle}>Add a friend</Text>
 
                 <View style={{ width: 30 }} />
             </View>

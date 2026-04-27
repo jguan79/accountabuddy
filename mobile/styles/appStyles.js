@@ -315,23 +315,25 @@ export const styles = StyleSheet.create({
         fontWeight: "700",
     },
 
+    /* ------------- FEED STYLES (to do)-------------*/
+
     /* ------------- FRIEND STYLES -------------*/
     screenContainer: {
         flex: 1,
         backgroundColor: "#D8EBD4",
         paddingTop: 50,
     },
-    friendButton: {
-        backgroundColor: "#94C88A",
-        marginHorizontal: 20,
-        padding: 18,
-        borderRadius: 40,
+
+    friendCard: {
+        flexDirection: "row",
         alignItems: "center",
+        backgroundColor: "#F6FBF6",
+        marginHorizontal: 20,
         marginBottom: 12,
-    },
-    friendName: {
-        fontSize: 16,
-        fontWeight: "bold",
+        padding: 14,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: "#E6F1E6",
     },
     resultRow: {
         flexDirection: "row",
@@ -341,6 +343,24 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: "#F2F7F2",
     },
+    friendAvatar: {
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        marginRight: 12,
+    },
+
+    friendInfo: {
+        flex: 1,
+        justifyContent: "center",
+    },
+
+    friendUsernameText: {
+        fontSize: 15,
+        fontWeight: "700",
+        color: "#1E3A1A",
+    },
+
     searchInput: {
         height: 48,
         backgroundColor: "#EAF6EA",
