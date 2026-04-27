@@ -33,11 +33,16 @@ export async function getCommentsForTaskFromDb(taskId: string) {
     const snapshot = await db
         .collection("comments")
         .where("taskId", "==", taskId)
-        .orderBy("createdAt", "asc")
         .get();
 
-    return snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...(doc.data() as any),
-    }));
+    return snapshot.docs
+        .map((doc) => ({
+            id: doc.id,
+            ...(doc.data() as any),
+        }))
+        .sort(
+            (a, b) =>
+                new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime(),
+        );
 }

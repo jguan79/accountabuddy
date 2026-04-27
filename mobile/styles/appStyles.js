@@ -316,7 +316,111 @@ export const styles = StyleSheet.create({
         fontWeight: "700",
     },
 
-    /* ------------- FEED STYLES (to do)-------------*/
+    /* ------------- FEED STYLES -------------*/
+    feedLoadingText: {
+        padding: 20,
+        color: "dimgray",
+    },
+    feedUserRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 20,
+        marginBottom: 10,
+    },
+    feedAvatar: {
+        borderRadius: 20,
+        marginRight: 10,
+        width: 40,
+        height: 40,
+    },
+    feedUserName: {
+        fontWeight: "700",
+    },
+    feedUserHandle: {
+        color: "gray",
+        fontSize: 12,
+    },
+    feedHintText: {
+        fontSize: 11,
+        color: "gray",
+        marginTop: 6,
+    },
+
+    /* ------------- COMMENT STYLES -------------*/
+    overallCommentsContainer: {
+        flex: 1,
+        padding: 20,
+        paddingTop: 60,
+    },
+    commentContainer: {
+        marginBottom: 14,
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "#eee",
+    },
+    commentTopRow: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+    },
+    commentUserRow: {
+        alignItems: "center",
+        flexDirection: "row",
+    },
+    commentAvatar: {
+        borderRadius: 16,
+        marginRight: 8,
+        width: 32,
+        height: 32,
+    },
+    commentName: {
+        fontWeight: "700",
+        fontSize: 14,
+        color: "#1E3A1A",
+    },
+    commentUsername: {
+        fontSize: 12,
+        color: "gray",
+    },
+    commentText: {
+        marginTop: 6,
+        fontSize: 14,
+        color: "#1E3A1A",
+    },
+    commentDate: {
+        fontSize: 10,
+        color: "gray",
+    },
+
+    /* ------------- COMMENTS INPUT -------------*/
+    commentInput: {
+        borderWidth: 1,
+        borderRadius: 12,
+        paddingHorizontal: 12,
+        paddingVertical: 10,
+        marginBottom: 10,
+        fontSize: 14,
+        borderColor: "#E0EFE0",
+        backgroundColor: "#F6FBF6",
+    },
+    commentPostButton: {
+        backgroundColor: "#66BB6A",
+        paddingVertical: 12,
+        borderRadius: 12,
+        alignItems: "center",
+    },
+    commentPostText: {
+        color: "#fff",
+        fontWeight: "700",
+    },
+    commentCloseButton: {
+        alignItems: "center",
+        marginTop: 10,
+    },
+    commentCloseText: {
+        color: "dimgray",
+        fontSize: 13,
+    },
 
     /* ------------- FRIEND STYLES -------------*/
     screenContainer: {
@@ -324,7 +428,6 @@ export const styles = StyleSheet.create({
         backgroundColor: "#D8EBD4",
         paddingTop: 50,
     },
-
     friendCard: {
         flexDirection: "row",
         alignItems: "center",
@@ -350,18 +453,15 @@ export const styles = StyleSheet.create({
         borderRadius: 24,
         marginRight: 12,
     },
-
     friendInfo: {
         flex: 1,
         justifyContent: "center",
     },
-
     friendUsernameText: {
         fontSize: 15,
         fontWeight: "700",
         color: "#1E3A1A",
     },
-
     searchInput: {
         height: 48,
         backgroundColor: "#EAF6EA",
@@ -510,11 +610,6 @@ export const styles = StyleSheet.create({
         backgroundColor: "#ffffff",
         paddingTop: 60,
         paddingHorizontal: 20,
-        elevation: 6,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
     },
     sidebarTitle: {
         fontSize: 18,

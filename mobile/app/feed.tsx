@@ -6,6 +6,8 @@ import {
     Animated,
     Image,
     ScrollView,
+    TextInput,
+    Modal,
 } from "react-native";
 import { styles } from "../styles/appStyles";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -14,9 +16,10 @@ import { RootStackParamList } from "../App";
 // ------------------------- ASSETS ------------------------- //
 import { profilePlaceholder } from "../assets/images";
 
-// ------------------------- API ------------------------- //
+// ------------------------- API IMPORTS ------------------------- //
 import { getFriends, getUserById } from "@/api/userApi";
 import { getTasks } from "@/api/taskApi";
+import { getCommentsForTask, addComment } from "@/api/commentApi";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Feed">;
 
@@ -31,11 +34,18 @@ export default function Feed({ route, navigation }: Props) {
     const [feedData, setFeedData] = useState<FeedItem[]>([]);
     const [loading, setLoading] = useState(true);
 
+    // ---------------- COMMENTS ---------------- //
+    const [selectedTask, setSelectedTask] = useState<any>(null);
+    const [commentsOpen, setCommentsOpen] = useState(false);
+    const [comments, setComments] = useState<any[]>([]);
+    const [commentText, setCommentText] = useState("");
+
+    // ---------------- SIDEBAR ---------------- //
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const sidebarAnim = useRef(new Animated.Value(-260)).current;
     const sidebarWidth = 260;
 
-    // ------------------------- LOAD FEED ------------------------- //
+    // ---------------- LOAD FEED ---------------- //
     useEffect(() => {
         loadFeed();
     }, []);
@@ -44,10 +54,8 @@ export default function Feed({ route, navigation }: Props) {
         try {
             setLoading(true);
 
-            // 1. get friends
             const friends = await getFriends(currentUser.id);
 
-            // 2. for each friend, fetch user + tasks
             const friendData = await Promise.all(
                 friends.map(async (friend) => {
                     const user = await getUserById(friend.userId);
@@ -60,10 +68,7 @@ export default function Feed({ route, navigation }: Props) {
                 }),
             );
 
-            // 3. flatten array
-            const flatFeed = friendData.flat();
-
-            setFeedData(flatFeed);
+            setFeedData(friendData.flat());
         } catch (err) {
             console.error("Feed load error:", err);
         } finally {
@@ -71,7 +76,57 @@ export default function Feed({ route, navigation }: Props) {
         }
     }
 
-    // ------------------------- SIDEBAR ------------------------- //
+    // ---------------- OPEN COMMENTS ---------------- //
+    async function openComments(task: any) {
+        setSelectedTask(task);
+        setCommentsOpen(true);
+
+        try {
+            const data = await getCommentsForTask(task.id);
+
+            const commentsWithUsers = await Promise.all(
+                data.map(async (comment: any) => {
+                    const user = await getUserById(comment.userId);
+
+                    return {
+                        ...comment,
+                        user,
+                    };
+                }),
+            );
+
+            setComments(commentsWithUsers);
+        } catch (err) {
+            console.error("Error loading comments:", err);
+        }
+    }
+
+    function closeComments() {
+        setCommentsOpen(false);
+        setSelectedTask(null);
+        setComments([]);
+        setCommentText("");
+    }
+
+    // ---------------- ADD COMMENT ---------------- //
+    async function handleAddComment() {
+        if (!selectedTask || commentText.trim().length === 0) return;
+
+        try {
+            const newComment = await addComment(
+                selectedTask.id,
+                currentUser.id,
+                commentText,
+            );
+
+            setComments((prev) => [...prev, newComment]);
+            setCommentText("");
+        } catch (err) {
+            console.error("Error adding comment:", err);
+        }
+    }
+
+    // ---------------- SIDEBAR ---------------- //
     function openSidebar() {
         setSidebarOpen(true);
         Animated.timing(sidebarAnim, {
@@ -106,73 +161,142 @@ export default function Feed({ route, navigation }: Props) {
             {/* FEED */}
             <ScrollView>
                 {loading ? (
-                    <Text style={{ padding: 20 }}>Loading feed...</Text>
+                    <Text style={styles.feedLoadingText}>Loading feed...</Text>
                 ) : (
-                    feedData.map((item, index) => (
+                    feedData.map((activity, index) => (
                         <View key={index} style={{ marginTop: 10 }}>
                             {/* USER HEADER */}
-                            <View
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    paddingHorizontal: 20,
-                                    marginBottom: 10,
-                                }}
-                            >
+                            <View style={styles.feedUserRow}>
                                 <Image
                                     source={profilePlaceholder}
-                                    style={{
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: 20,
-                                        marginRight: 10,
-                                    }}
+                                    style={styles.feedAvatar}
                                 />
 
                                 <View>
-                                    <Text style={{ fontWeight: "700" }}>
-                                        {item.user.firstName}{" "}
-                                        {item.user.lastName}
+                                    <Text style={styles.feedUserName}>
+                                        {activity.user.firstName}{" "}
+                                        {activity.user.lastName}
                                     </Text>
-                                    <Text
-                                        style={{ color: "gray", fontSize: 12 }}
-                                    >
-                                        @{item.user.username}
+
+                                    <Text style={styles.feedUserHandle}>
+                                        @{activity.user.username}
                                     </Text>
                                 </View>
                             </View>
 
                             {/* TASK CARD */}
-                            <View style={styles.taskCard}>
-                                <View style={styles.taskLeft}>
-                                    <View
-                                        style={[
-                                            styles.taskCircle,
-                                            {
-                                                backgroundColor:
-                                                    item.task.color ||
-                                                    "#66BB6A",
-                                            },
-                                        ]}
-                                    />
-                                    <View>
-                                        <Text style={styles.taskName}>
-                                            {item.task.subjectTitle ||
-                                                item.task.name ||
-                                                item.task.title ||
-                                                "Untitled"}
-                                        </Text>
-                                        <Text style={styles.taskDescription}>
-                                            {item.task.description}
-                                        </Text>
+                            <TouchableOpacity
+                                activeOpacity={0.8}
+                                onPress={() => openComments(activity.task)}
+                            >
+                                <View style={styles.taskCard}>
+                                    <View style={styles.taskLeft}>
+                                        <View
+                                            style={[
+                                                styles.taskCircle,
+                                                {
+                                                    backgroundColor:
+                                                        activity.task.color ||
+                                                        "#66BB6A",
+                                                },
+                                            ]}
+                                        />
+                                        <View>
+                                            <Text style={styles.taskName}>
+                                                {activity.task.title ??
+                                                    "Untitled"}
+                                            </Text>
+                                            <Text
+                                                style={styles.taskDescription}
+                                            >
+                                                {activity.task.description}
+                                            </Text>
+
+                                            <Text style={styles.feedHintText}>
+                                                Tap to view comments
+                                            </Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         </View>
                     ))
                 )}
             </ScrollView>
 
+            {/* ---------------- COMMENTS MODAL ---------------- */}
+            <Modal visible={commentsOpen} animationType="slide">
+                <View style={styles.overallCommentsContainer}>
+                    <Text style={{ fontSize: 18, fontWeight: "700" }}>
+                        Comments
+                    </Text>
+
+                    {/* Comments List */}
+                    <ScrollView style={{ marginTop: 20 }}>
+                        {comments.map((comment, index) => (
+                            <View key={index} style={{ marginBottom: 12 }}>
+                                <View style={styles.commentContainer}>
+                                    <View style={styles.commentTopRow}>
+                                        <View style={styles.commentUserRow}>
+                                            <Image
+                                                source={profilePlaceholder}
+                                                style={styles.commentAvatar}
+                                            />
+                                            <View>
+                                                <Text
+                                                    style={styles.commentName}
+                                                >
+                                                    {comment.user?.firstName}{" "}
+                                                    {comment.user?.lastName}
+                                                </Text>
+
+                                                <Text
+                                                    style={
+                                                        styles.commentUsername
+                                                    }
+                                                >
+                                                    @{comment.user?.username}
+                                                </Text>
+                                            </View>
+                                        </View>
+
+                                        <Text style={styles.commentDate}>
+                                            {new Date(
+                                                comment.createdAt,
+                                            ).toLocaleDateString()}
+                                        </Text>
+                                    </View>
+
+                                    <Text style={styles.commentText}>
+                                        {comment.text}
+                                    </Text>
+                                </View>
+                            </View>
+                        ))}
+                    </ScrollView>
+
+                    <TextInput
+                        placeholder="Write a comment..."
+                        value={commentText}
+                        onChangeText={setCommentText}
+                        style={styles.commentInput}
+                    />
+
+                    <TouchableOpacity
+                        onPress={handleAddComment}
+                        style={styles.commentPostButton}
+                    >
+                        <Text style={styles.commentPostText}>Post Comment</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={closeComments}
+                        style={styles.commentCloseButton}
+                    >
+                        <Text style={styles.commentCloseText}>Close</Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
             {sidebarOpen ? (
                 <TouchableOpacity
                     activeOpacity={1}
