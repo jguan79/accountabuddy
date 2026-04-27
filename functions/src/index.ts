@@ -10,6 +10,8 @@ import { getFriends } from "./cloudfunctions/getFriends";
 import { addFriend } from "./cloudfunctions/addFriend";
 import { updateUser } from "./cloudfunctions/updateUser";
 import { getUserById } from "./cloudfunctions/getUserbyId";
+import { addComment } from "./cloudfunctions/addComment";
+import { getCommentsForTask } from "./cloudfunctions/getCommentsForTask";
 
 setGlobalOptions({ maxInstances: 10 });
 
@@ -25,4 +27,6 @@ export {
     addFriend,
     updateUser,
     getUserById,
+    addComment,
+    getCommentsForTask,
 };
